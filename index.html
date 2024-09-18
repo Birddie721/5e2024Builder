@@ -92,7 +92,14 @@
 		border-color: #3a6e7a
 		text-align: center;
 	}
-
+	
+	.tab-head {
+		 border-bottom-width: 2px;
+		 border-bottom-style: solid;
+		 border-bottom-color: #E8E8E8;
+	}
+	
+	
     select {
       margin-bottom: 20px;
     }
@@ -129,12 +136,13 @@
 	<table class="table-sel">
   <thead>
     <tr>
-      <th>Ability</th>
-      <th>Base Score</th>
-	  <th></th>
-      <th>Modifier</th>
-	  <th></th>
-      <th>Total</th>
+      <th class="tab-head" style="width: 16%">Ability</th>
+      <th class="tab-head" style="width: 16%">Base Score</th>
+	  <th class="tab-head" style="width: 10%"></th>
+      <th class="tab-head" style="width: 16%">Modifier</th>
+	  <th class="tab-head" style="width: 10%"></th>
+      <th class="tab-head" style="width: 16%">Total</th>
+	  <th class="tab-head" style="width: 16%">Ability Modifier</th>
     </tr>
   </thead>
   <tbody>
@@ -169,8 +177,9 @@
 			</tr></tbody></table></div>
 		</td>
 		<td class="operator">=</td>
-		<td>
-			<div class="value" id="total1">8</div>
+		<td class="value" id="total1">8
+		</td>
+		<td class="value" id="abilityMod1">-1
 		</td>
 	</tr>
 
@@ -204,8 +213,9 @@
 			</tr></tbody></table></div>
 		</td>
 		<td class="operator">=</td>
-		<td>
-			<div class="value" id="total2">8</div>
+		<td class="value" id="total2">8
+		</td>
+		<td class="value" id="abilityMod2">-1
 		</td>
 	</tr>
 	
@@ -239,8 +249,9 @@
 			</tr></tbody></table></div>
 		</td>
 		<td class="operator">=</td>
-		<td>
-			<div class="value" id="total3">8</div>
+		<td class="value" id="total3">8
+		</td>
+		<td class="value" id="abilityMod3">-1
 		</td>
 	</tr>
 	
@@ -274,8 +285,9 @@
 			</tr></tbody></table></div>
 		</td>
 		<td class="operator">=</td>
-		<td>
-			<div class="value" id="total4">8</div>
+		<td class="value" id="total4">8
+		</td>
+		<td class="value" id="abilityMod4">-1
 		</td>
 	</tr>
 	
@@ -309,8 +321,9 @@
 			</tr></tbody></table></div>
 		</td>
 		<td class="operator">=</td>
-		<td>
-			<div class="value" id="total5">8</div>
+		<td class="value" id="total5">8
+		</td>
+		<td class="value" id="abilityMod5">-1
 		</td>
 	</tr>
 	
@@ -344,8 +357,9 @@
 			</tr></tbody></table></div>
 		</td>
 		<td class="operator">=</td>
-		<td>
-			<div class="value" id="total6">8</div>
+		<td class="value" id="total6">8
+		</td>
+		<td class="value" id="abilityMod6">-1
 		</td>
 	</tr>
   </tbody>
@@ -395,6 +409,19 @@
       14: 7,
       15: 9
     };
+	
+	const modifierMap = {
+		8: -1,
+		9: -1,
+		10: 0,
+		11: 0,
+		12: 1,
+		13: 1,
+		14: 2,
+		15: 2,
+		16: 3,
+		17: 3
+	};
 
     function updateDisplay(id) {
       document.getElementById(`value${id}`).innerText = values[id - 1];
@@ -415,6 +442,7 @@
           values[id - 1] = nextValue;
           pricePool -= costDifference;
           updateDisplay(id);
+		  updateTotals();
         }
       }
     }
@@ -431,6 +459,7 @@
         values[id - 1] = previousValue;
         pricePool += costDifference;
         updateDisplay(id);
+		updateTotals();
       }
     }
 	
@@ -478,6 +507,7 @@
 	function updateTotals(){
 		for (let i = 1; i <= 6; i++) {
 			document.getElementById("total" + i).innerText = values[i - 1] + mods[i - 1];
+			document.getElementById("abilityMod" + i).innerText = modifierMap[values[i - 1] + mods[i - 1]];
 		}
 	}
 
