@@ -33,23 +33,39 @@
 
     .box {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       padding: 20px;
       border: 1px solid #ccc;
       background-color: #fff;
       border-radius: 10px;
-      width: 100px;
+      width: 80px;
     }
+	
+	.value-control {
+		display: flex;
+		flex-direction: column;
+		padding-left: 20px;
+	}
 
-    .box.modifiable {
-      background-color: lightblue;
+    .mod.modifiable {
+      background-color: #25c4e8;
+	  border-radius: 5px;
+	  font-size: 124px;
     }
 
     .value {
       font-size: 24px;
       margin-bottom: 10px;
+	  width: 25px;
+	  text-align: center;
     }
+	
+	.operator {
+		font-size: 24px;
+		text-align: center;
+		width: 100px;
+	}
 
     button {
       width: 30px;
@@ -63,10 +79,21 @@
       text-align: center;
       margin-top: 20px;
     }
+	
+	.table-sel {
+		background-color: #bfe3eb;
+		padding: 10px 20px;
+		border-radius: 20px;
+		border-style: solid;
+		border-width: 3px;
+		border-color: #3a6e7a
+		text-align: center;
+	}
 
     select {
       margin-bottom: 20px;
     }
+	
   </style>
 </head>
 <body>
@@ -95,108 +122,231 @@
       </select>
     </div>
 
-    <div class="row">
-      <div class="label">Strength</div>
-      <div class="box">
-        <div class="value" id="value1">8</div>
-        <button onclick="increment(1)">▲</button>
-        <button onclick="decrement(1)">▼</button>
-      </div>
-      <div class="box" id="modBox1">
-        <div class="value" id="mod1">0</div>
-        <button onclick="modIncrement(1)">▲</button>
-        <button onclick="modDecrement(1)">▼</button>
-      </div>
-      <div class="box">
-        <div class="value" id="total1">8</div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="label">Dexterity</div>
-      <div class="box">
-        <div class="value" id="value2">8</div>
-        <button onclick="increment(2)">▲</button>
-        <button onclick="decrement(2)">▼</button>
-      </div>
-      <div class="box" id="modBox2">
-        <div class="value" id="mod2">0</div>
-        <button onclick="modIncrement(2)">▲</button>
-        <button onclick="modDecrement(2)">▼</button>
-      </div>
-      <div class="box">
-        <div class="value" id="total2">8</div>
-      </div>
-    </div>
+	<table class="table-sel">
+  <thead>
+    <tr>
+      <th>Ability</th>
+      <th>Base Score</th>
+	  <th></th>
+      <th>Modifier</th>
+	  <th></th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <tr>
+		<td>Strength</td>
+		<td>
+			<div><table><tbody><tr>
+				<td>
+					<div class="value" id="value1">8</div>
+				</td>
+				<td>
+					<div class="value-control">
+					<button onclick="increment(1)">▲</button>
+					<button onclick="decrement(1)">▼</button>
+					</div>
+				</td>
+			</tr></tbody></table></div>
+		</td>
+		<td class="operator">+</td>
+		<td>
+			<div class="mod" id="modBox1"><table><tbody><tr>
+				<td>
+					<div class="value" id="mod1">0</div>
+				</td>
+				<td>
+					<div class="value-control">
+					<button onclick="modIncrement(1)">▲</button>
+					<button onclick="modDecrement(1)">▼</button>
+					</div>
+				</td>
+			</tr></tbody></table></div>
+		</td>
+		<td class="operator">=</td>
+		<td>
+			<div class="value" id="total1">8</div>
+		</td>
+	</tr>
 
-    <div class="row">
-      <div class="label">Constitution</div>
-      <div class="box">
-        <div class="value" id="value3">8</div>
-        <button onclick="increment(3)">▲</button>
-        <button onclick="decrement(3)">▼</button>
-      </div>
-      <div class="box" id="modBox3">
-        <div class="value" id="mod3">0</div>
-        <button onclick="modIncrement(3)">▲</button>
-        <button onclick="modDecrement(3)">▼</button>
-      </div>
-      <div class="box">
-        <div class="value" id="total3">8</div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="label">Intelligence</div>
-      <div class="box">
-        <div class="value" id="value4">8</div>
-        <button onclick="increment(4)">▲</button>
-        <button onclick="decrement(4)">▼</button>
-      </div>
-      <div class="box" id="modBox4">
-        <div class="value" id="mod4">0</div>
-        <button onclick="modIncrement(4)">▲</button>
-        <button onclick="modDecrement(4)">▼</button>
-      </div>
-      <div class="box">
-        <div class="value" id="total4">8</div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="label">Wisdom</div>
-      <div class="box">
-        <div class="value" id="value5">8</div>
-        <button onclick="increment(5)">▲</button>
-        <button onclick="decrement(5)">▼</button>
-      </div>
-      <div class="box" id="modBox5">
-        <div class="value" id="mod5">0</div>
-        <button onclick="modIncrement(5)">▲</button>
-        <button onclick="modDecrement(5)">▼</button>
-      </div>
-      <div class="box">
-        <div class="value" id="total5">8</div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="label">Charisma</div>
-      <div class="box">
-        <div class="value" id="value6">8</div>
-        <button onclick="increment(6)">▲</button>
-        <button onclick="decrement(6)">▼</button>
-      </div>
-      <div class="box" id="modBox6">
-        <div class="value" id="mod6">0</div>
-        <button onclick="modIncrement(6)">▲</button>
-        <button onclick="modDecrement(6)">▼</button>
-      </div>
-      <div class="box">
-        <div class="value" id="total6">8</div>
-      </div>
-    </div>
-  </div>
+	<tr>
+		<td>Dexterity</td>
+		<td>
+			<div><table><tbody><tr>
+				<td>
+					<div class="value" id="value2">8</div>
+				</td>
+				<td>
+					<div class="value-control">
+					<button onclick="increment(2)">▲</button>
+					<button onclick="decrement(2)">▼</button>
+					</div>
+				</td>
+			</tr></tbody></table></div>
+		</td>
+		<td class="operator">+</td>
+		<td>
+			<div class="mod" id="modBox2"><table><tbody><tr>
+				<td>
+					<div class="value" id="mod2">0</div>
+				</td>
+				<td>
+					<div class="value-control">
+					<button onclick="modIncrement(2)">▲</button>
+					<button onclick="modDecrement(2)">▼</button>
+					</div>
+				</td>
+			</tr></tbody></table></div>
+		</td>
+		<td class="operator">=</td>
+		<td>
+			<div class="value" id="total2">8</div>
+		</td>
+	</tr>
+	
+    <tr>
+		<td>Constitution</td>
+		<td>
+			<div><table><tbody><tr>
+				<td>
+					<div class="value" id="value3">8</div>
+				</td>
+				<td>
+					<div class="value-control">
+					<button onclick="increment(3)">▲</button>
+					<button onclick="decrement(3)">▼</button>
+					</div>
+				</td>
+			</tr></tbody></table></div>
+		</td>
+		<td class="operator">+</td>
+		<td>
+			<div class="mod" id="modBox3"><table><tbody><tr>
+				<td>
+					<div class="value" id="mod3">0</div>
+				</td>
+				<td>
+					<div class="value-control">
+					<button onclick="modIncrement(3)">▲</button>
+					<button onclick="modDecrement(3)">▼</button>
+					</div>
+				</td>
+			</tr></tbody></table></div>
+		</td>
+		<td class="operator">=</td>
+		<td>
+			<div class="value" id="total3">8</div>
+		</td>
+	</tr>
+	
+    <tr>
+		<td>Intelligence</td>
+		<td>
+			<div><table><tbody><tr>
+				<td>
+					<div class="value" id="value4">8</div>
+				</td>
+				<td>
+					<div class="value-control">
+					<button onclick="increment(4)">▲</button>
+					<button onclick="decrement(4)">▼</button>
+					</div>
+				</td>
+			</tr></tbody></table></div>
+		</td>
+		<td class="operator">+</td>
+		<td>
+			<div class="mod" id="modBox4"><table><tbody><tr>
+				<td>
+					<div class="value" id="mod4">0</div>
+				</td>
+				<td>
+					<div class="value-control">
+					<button onclick="modIncrement(4)">▲</button>
+					<button onclick="modDecrement(4)">▼</button>
+					</div>
+				</td>
+			</tr></tbody></table></div>
+		</td>
+		<td class="operator">=</td>
+		<td>
+			<div class="value" id="total4">8</div>
+		</td>
+	</tr>
+	
+    <tr>
+		<td>Wisdom</td>
+		<td>
+			<div><table><tbody><tr>
+				<td>
+					<div class="value" id="value5">8</div>
+				</td>
+				<td>
+					<div class="value-control">
+					<button onclick="increment(5)">▲</button>
+					<button onclick="decrement(5)">▼</button>
+					</div>
+				</td>
+			</tr></tbody></table></div>
+		</td>
+		<td class="operator">+</td>
+		<td>
+			<div class="mod" id="modBox5"><table><tbody><tr>
+				<td>
+					<div class="value" id="mod5">0</div>
+				</td>
+				<td>
+					<div class="value-control">
+					<button onclick="modIncrement(5)">▲</button>
+					<button onclick="modDecrement(5)">▼</button>
+					</div>
+				</td>
+			</tr></tbody></table></div>
+		</td>
+		<td class="operator">=</td>
+		<td>
+			<div class="value" id="total5">8</div>
+		</td>
+	</tr>
+	
+    <tr>
+		<td>Charisma</td>
+		<td>
+			<div><table><tbody><tr>
+				<td>
+					<div class="value" id="value6">8</div>
+				</td>
+				<td>
+					<div class="value-control">
+					<button onclick="increment(6)">▲</button>
+					<button onclick="decrement(6)">▼</button>
+					</div>
+				</td>
+			</tr></tbody></table></div>
+		</td>
+		<td class="operator">+</td>
+		<td>
+			<div class="mod" id="modBox6"><table><tbody><tr>
+				<td>
+					<div class="value" id="mod6">0</div>
+				</td>
+				<td>
+					<div class="value-control">
+					<button onclick="modIncrement(6)">▲</button>
+					<button onclick="modDecrement(6)">▼</button>
+					</div>
+				</td>
+			</tr></tbody></table></div>
+		</td>
+		<td class="operator">=</td>
+		<td>
+			<div class="value" id="total6">8</div>
+		</td>
+	</tr>
+  </tbody>
+</table>
 
   <div class="price-pool">
     <p>Price Pool: <span id="pricePool">27</span></p><br>
