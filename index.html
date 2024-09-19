@@ -197,7 +197,7 @@
 		<div class="container">
 			<div class="table-header">
 				<label for="roleSelect">Select Background: </label>
-				<select id="roleSelect" onchange="updateRole()">
+				<select style="margin-left:10px" id="roleSelect" onchange="updateRole()">
 					<option value="">--Select a Background--</option>
 					<option value="Acolyte">Acolyte (Intelligence, Wisdom, Charisma)</option>
 					<option value="Artisan">Artisan (Strength, Dexterity, Intelligence)</option>
@@ -218,7 +218,7 @@
 				</select>
 				
 				<div>
-					<button class="class-button" onclick="classStats">Class Recommended Stats</button>
+					<button class="class-button" onclick="classStats()">Class Recommended Stats</button>
 				</div>
 				
 			</div>
@@ -457,6 +457,8 @@
   </tbody>
 </table>
 
+		<button style="margin:auto" class="class-button" onclick="clearStats()">Clear</button>
+	
   <div class="price-pool">
     <p>Total Points: <span id="pricePool">27 / 27</span></p><br>
 	<p>Background Points: <span id="modifierPool">3 /3</span></p>
@@ -471,6 +473,7 @@
     const mods = [0, 0, 0, 0, 0, 0];
 	let modifiableBoxes = [];
 	let modifierPool = 3;
+	let initialPricePool = pricePool;
 	
 	const roles = {
 		"Acolyte": [4, 5, 6], // Intelligence, Wisdom, Charisma
@@ -490,6 +493,21 @@
 		"Soldier": [1, 2, 3], // Strength, Dexterity, Constitution
 		"Wayfarer": [2, 5, 6] // Dexterity, Wisdom, Charisma
 	};
+	
+	const classDefault = {
+		"Barbarian": [15, 13, 14, 10, 12, 8],
+		"Bard": [8, 14, 12, 13, 10, 15],
+		"Cleric": [14, 8, 13, 10, 15, 12],
+		"Druid": [8, 12, 14, 13, 15, 10],
+		"Fighter": [15, 14, 13, 8, 10, 12],
+		"Monk": [12, 15, 13, 10, 14, 8],
+		"Paladin": [15, 10, 13, 8, 12, 14],
+		"Ranger": [12, 15, 13, 8, 14, 10],
+		"Rogue": [12, 15, 13, 14, 10, 8],
+		"Sorcerer": [10, 13, 14, 8, 12, 15],
+		"Warlock": [8, 14, 13, 12, 10, 15],
+		"Wizard": [8, 12, 13, 15, 14, 10]
+	}
 
     const costMap = {
       8: 0,
@@ -604,7 +622,28 @@
 	}
 	
 	function classStats() {
-		
+		const selectedClass = document.getElementById("class").value;
+		let scores = [];
+		scores = classDefault[selectedClass] || [];
+		if (scores.length > 0) {
+			pricePool = 0;
+			for (let i = 1; i <= 6; i++) {
+				values[i - 1] = scores[i-1];
+				updateDisplay(i);
+			}
+			updateTotals();
+		}
+	}
+	
+	function clearStats() {
+		pricePool = initialPricePool;
+		modifierPool = 3;
+		for (let i = 1; i <= 6; i++) {
+			values[i - 1] = 8
+			mods[i - 1] = 0;
+			updateDisplay(i);
+		}
+		updateTotals();
 	}
 	
 	function handleRaceChange() {
