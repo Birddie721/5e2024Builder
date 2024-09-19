@@ -560,7 +560,7 @@
 			mods[id - 1]++;
 			modifierPool--;
 			document.getElementById("mod" + id).innerText = mods[id - 1];
-			document.getElementById("modifierPool").innerText = modifierPool;
+			document.getElementById("modifierPool").innerText = modifierPool + " / 3";
 			updateTotals();
 		}
 	}
@@ -599,7 +599,7 @@
 	function updateTotals(){
 		for (let i = 1; i <= 6; i++) {
 			document.getElementById("total" + i).innerText = values[i - 1] + mods[i - 1];
-			document.getElementById("abilityMod" + i).innerText = modifierMap[values[i - 1] + mods[i - 1]] + " / 3";
+			document.getElementById("abilityMod" + i).innerText = modifierMap[values[i - 1] + mods[i - 1]];
 		}
 	}
 	
