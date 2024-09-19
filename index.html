@@ -141,12 +141,24 @@
 		border-width: 1px;
 		padding: 5px;
 		margin-left: 20px;
+		height: fit-content;
+	}
+	
+	.small-screen-fix {
+		width:auto;
+	}
+	
+	@media only screen and (max-width: 768px){
+		.small-screen-fix {
+			width:fit-content;
+		}
 	}
 	
   </style>
 </head>
-<body>
-
+<body class="small-screen-fix">
+	
+	<h1>Dungeons and Dragons 5th Edition 2024 Character Builder</h1>
 
 	<div class="player-form">
 		<label for="playerName">Character Name:</label>
