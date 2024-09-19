@@ -51,7 +51,8 @@ const { PDFDocument } = PDFLib
       // Fill in the basic info fields
 	  nameField.setText(document.getElementById("playerName").value)
 	  backgroundField.setText(document.getElementById("roleSelect").value)
-	  classField.setText(document.getElementById("class").value)
+	  let selectedClass = document.getElementById("class").value
+	  classField.setText(selectedClass)
 	  
 	  let species = document.getElementById("race").value
 	  const speciesList = ["Elf", "Goliath", "Tiefling"]
@@ -80,6 +81,24 @@ const { PDFDocument } = PDFLib
 	  
 	  levelField.setText('1')
 	  proficiencyField.setText('+2')
+	  
+	  const classHP = {
+		"Barbarian": 12,
+		"Bard": 8,
+		"Cleric": 8,
+		"Druid": 8,
+		"Fighter": 10,
+		"Monk": 8,
+		"Paladin": 10,
+		"Ranger": 10,
+		"Rogue": 8,
+		"Sorcerer": 6,
+		"Warlock": 8,
+		"Wizard": 6
+	  }
+	  
+	  
+	  
 	  
 	  strScoreField.setText(document.getElementById("total1").innerText)
 	  let strMod = document.getElementById("abilityMod1").innerText;
@@ -131,7 +150,9 @@ const { PDFDocument } = PDFLib
 	  
 	  
 	  initiativeField.setText(dexMod)
-	  
+	  let hp = classHP[selectedClass]
+	  let modifiedHP = parseInt(hp) + parseInt(conMod)
+	  hpField.setText(modifiedHP.toString())
 
       // Fill the character image field with our Mario image
       //characterImageField.setImage(marioImage)
