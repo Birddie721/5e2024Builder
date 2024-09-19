@@ -52,7 +52,85 @@ const { PDFDocument } = PDFLib
 	  nameField.setText(document.getElementById("playerName").value)
 	  backgroundField.setText(document.getElementById("roleSelect").value)
 	  classField.setText(document.getElementById("class").value)
-	  speciesField.setText(document.getElementById("race").value)
+	  
+	  let species = document.getElementById("race").value
+	  const speciesList = ["Elf", "Goliath", "Tiefling"]
+	  if (speciesList.includes(species)) {
+		  speciesField.setText(document.getElementById("subrace").value + " " + species)
+	  }else {
+		speciesField.setText(species)
+	  }
+	  
+	  const fastList = ["Goliath"]
+	  if (fastList.includes(species)) {
+		  speedField.setText("35")
+	  } else {
+		  speedField.setText("30")
+	  }
+	  
+	  const smallList = ["Gnome", "Halfling"]
+	  const otherList = ["Aasimar", "Human", "Tiefling"]
+	  if (smallList.includes(species)) {
+		  sizeField.setText("Small")
+	  } elif (otherList.includes(species) {
+		  sizeField.setText("")
+	  }else {
+		  eizeField.setText("Medium")
+	  }
+	  
+	  levelField.setText('1')
+	  proficiencyField.setText('+2')
+	  
+	  strScoreField.setText(document.getElementById("total1").innerText)
+	  let strMod = document.getElementById("abilityMod1").innerText;
+	  if (strMod >= 0) {
+		  strModField.setText("+" + strMod)
+	  } else {
+		  strModField.setText(strMod)
+	  }
+	  
+	  dexScoreField.setText(document.getElementById("total2").innerText)
+	  let dexMod = document.getElementById("abilityMod2").innerText;
+	  if (dexMod >= 0) {
+		  dexModField.setText("+" + dexMod)
+	  } else {
+		  dexModField.setText(dexMod)
+	  }
+	  
+	  conScoreField.setText(document.getElementById("total3").innerText)
+	  let conMod = document.getElementById("abilityMod3").innerText;
+	  if (conMod >= 0) {
+		  conModField.setText("+" + conMod)
+	  } else {
+		  conModField.setText(conMod)
+	  }
+	  
+	  intScoreField.setText(document.getElementById("total4").innerText)
+	  let intMod = document.getElementById("abilityMod4").innerText;
+	  if (intMod >= 0) {
+		  intModField.setText("+" + intMod)
+	  } else {
+		  intModField.setText(intMod)
+	  }
+	  
+	  wisScoreField.setText(document.getElementById("total5").innerText)
+	  let wisMod = document.getElementById("abilityMod5").innerText;
+	  if (wisMod >= 0) {
+		  wisModField.setText("+" + wisMod)
+	  } else {
+		  wisModField.setText(wisMod)
+	  }
+	  
+	  chaScoreField.setText(document.getElementById("total6").innerText)
+	  let chaMod = document.getElementById("abilityMod6").innerText;
+	  if (chaMod >= 0) {
+		  chaModField.setText("+" + chaMod)
+	  } else {
+		  chaModField.setText(chaMod)
+	  }
+	  
+	  
+	  initiativeField.setText(dexMod)
 	  
 
       // Fill the character image field with our Mario image
