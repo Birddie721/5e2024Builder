@@ -47,6 +47,19 @@ const { PDFDocument } = PDFLib
 	  const initiativeField = form.getTextField('init')
       const speedField = form.getTextField('SPEED')
 	  const sizeField = form.getTextField('SIZE')
+	  
+	  const strChk = form.getCheckBox("Check Box18")
+	  const dexChk = form.getCheckBox("Check Box11")
+	  const conChk = form.getCheckBox("Check Box7")
+	  const intChk = form.getCheckBox("Check Box25")
+	  const wisChk = form.getCheckBox("Check Box17")
+	  const chaChk = form.getCheckBox("Check Box6")
+	  
+	  
+	  const lightArmor = form.getCheckBox("Check Box33")
+	  const mediumArmor = form.getCheckBox("Check Box34")
+	  const heavyArmor = form.getCheckBox("Check Box35")
+	  const shieldProf = form.getCheckBox("Check Box36")
 
       // Fill in the basic info fields
 	  nameField.setText(document.getElementById("playerName").value)
@@ -153,6 +166,55 @@ const { PDFDocument } = PDFLib
 	  let hp = classHP[selectedClass]
 	  let modifiedHP = parseInt(hp) + parseInt(conMod)
 	  hpField.setText(modifiedHP.toString())
+	  
+	  const strSave = ["Barbarian", "Fighter", "Monk", "Ranger"]
+	  const dexSave = ["Bard", "Monk", "Ranger", "Rogue"]
+	  const conSave = ["Barbarian", "Fighter", "Sorcerer"]
+	  const intSave = ["Druid", "Rogue", "Wizard"]
+	  const wisSave = ["Cleric", "Druid", "Paladin", "Warlock", "Wizard"]
+	  const chaSave = ["Bard", "Cleric", "Paladin", "Sorcerer", "Warlock"]
+	  
+	  if (strSave.includes(selectedClass)) {
+		  strChk.check();
+	  }
+	  if (dexSave.includes(selectedClass)) {
+		  dexChk.check();
+	  }
+	  if (conSave.includes(selectedClass)) {
+		  conChk.check();
+	  }
+	  if (intSave.includes(selectedClass)) {
+		  intChk.check();
+	  }
+	  if (wisSave.includes(selectedClass)) {
+		  wisChk.check();
+	  }
+	  if (chaSave.includes(selectedClass)) {
+		  chaChk.check();
+	  }
+	  
+	  
+	  
+	  const lightArmorProficiency = ["Barbarian", "Bard", "Cleric", "Druid", "Fighter", "Paladin", "Ranger", "Rogue", "Warlock"]
+	  const mediumArmorProficiency = ["Barbarian", "Cleric", "Fighter", "Paladin", "Ranger"]
+	  const heavyArmorProficiency = ["Fighter", "Paladin"]
+	  const hasShieldProficiency = ["Barbarian", "Cleric", "Druid", "Fighter", "Paladin", "Ranger"]
+	  
+	  if (lightArmorProficiency.includes(selectedClass)) {
+		  lightArmor.check();
+	  }
+	  if (mediumArmorProficiency.includes(selectedClass)) {
+		  mediumArmor.check();
+	  }
+	  if (heavyArmorProficiency.includes(selectedClass)) {
+		  heavyArmor.check();
+	  }
+	  if (hasShieldProficiency.includes(selectedClass)) {
+		  shieldProf.check();
+	  }
+	  
+	  
+
 
       // Fill the character image field with our Mario image
       //characterImageField.setImage(marioImage)
