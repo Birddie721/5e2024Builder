@@ -6,6 +6,9 @@
   <meta name="description" content="Build a character for use in Dungeons and Dragons 5th Edition 2024!">
   <meta name="keywords" content="DnD, 27, point, buy, 5e, 2024, 5e2024, characterbuilder, fifth, edition, dungeon, dragon, dungeonsanddragons, D&D">
   <meta name="author" content="BirddieSoftware">
+  <script src="https://unpkg.com/pdf-lib@1.11.0"></script>
+    <script src="https://unpkg.com/downloadjs@1.4.7"></script>
+  <script src="pdf-edit.js"></script>
   <title>DnD 5e 2024 Character Builder</title>
   <style>
     body {
@@ -477,6 +480,7 @@
 	<p>Background Points: <span id="modifierPool">3 /3</span></p>
   </div>
 	
+	<button style="margin:auto" class="class-button" onclick="fillForm()">Download PDF</button>
 
 
   <script>
