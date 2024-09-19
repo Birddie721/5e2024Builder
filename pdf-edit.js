@@ -72,7 +72,7 @@ const { PDFDocument } = PDFLib
 	  const otherList = ["Aasimar", "Human", "Tiefling"]
 	  if (smallList.includes(species)) {
 		  sizeField.setText("Small")
-	  } elif (otherList.includes(species) {
+	  } elif (otherList.includes(species)) {
 		  sizeField.setText("")
 	  }else {
 		  eizeField.setText("Medium")
