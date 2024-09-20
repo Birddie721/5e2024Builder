@@ -11,6 +11,8 @@ const { PDFDocument } = PDFLib
       // Get the form containing all the fields
       const form = pdfDoc.getForm()
 
+	let proficiencyBonus = 2;
+
       // Get all fields in the PDF by their names
       const nameField = form.getTextField('Name')
       const backgroundField = form.getTextField('Background')
@@ -26,6 +28,7 @@ const { PDFDocument } = PDFLib
 	  const hpField = form.getTextField('Max HP')
 	  
       const proficiencyField = form.getTextField('PROF BONUS')
+	  const passivePerceptionField = form.getTextField('PASSIVE PERCEPTION')
 	  
       const strScoreField = form.getTextField('STR SCORE')
       const strModField = form.getTextField('STR MOD')
@@ -56,30 +59,36 @@ const { PDFDocument } = PDFLib
 	  const wisChk = form.getCheckBox("Check Box17")
 	  const chaChk = form.getCheckBox("Check Box6")
 	  
-	  const athletics = form.getCheckBox("Check Box19")
-	  const acrobatics = form.getCheckBox("Check Box8")
-	  const slightOfHand = form.getCheckBox("Check Box9")
-	  const stealth = form.getCheckBox("Check Box10")
-	  const arcana = form.getCheckBox("Check Box24")
-	  const historyProf = form.getCheckBox("Check Box20")
-	  const investigation = form.getCheckBox("Check Box21")
-	  const nature = form.getCheckBox("Check Box22")
-	  const religion = form.getCheckBox("Check Box23")
-	  const animalHandling = form.getCheckBox("Check Box15")
-	  const insight = form.getCheckBox("Check Box13")
-	  const medicine = form.getCheckBox("Check Box12")
-	  const perception = form.getCheckBox("Check Box14")
-	  const survival = form.getCheckBox("Check Box16")
-	  const deception = form.getCheckBox("Check Box5")
-	  const intimidation = form.getCheckBox("Check Box4")
-	  const performance = form.getCheckBox("Check Box3")
-	  const persuasion = form.getCheckBox("Check Box2")
+	  const athleticsChk = form.getCheckBox("Check Box19")
+	  const acrobaticsChk = form.getCheckBox("Check Box8")
+	  const slightOfHandChk = form.getCheckBox("Check Box9")
+	  const stealthChk = form.getCheckBox("Check Box10")
+	  const arcanaChk = form.getCheckBox("Check Box24")
+	  const historyChk = form.getCheckBox("Check Box20")
+	  const investigationChk = form.getCheckBox("Check Box21")
+	  const natureChk = form.getCheckBox("Check Box22")
+	  const religionChk = form.getCheckBox("Check Box23")
+	  const animalHandlingChk = form.getCheckBox("Check Box15")
+	  const insightChk = form.getCheckBox("Check Box13")
+	  const medicineChk = form.getCheckBox("Check Box12")
+	  const perceptionChk = form.getCheckBox("Check Box14")
+	  const survivalChk = form.getCheckBox("Check Box16")
+	  const deceptionChk = form.getCheckBox("Check Box5")
+	  const intimidationChk = form.getCheckBox("Check Box4")
+	  const performanceChk = form.getCheckBox("Check Box3")
+	  const persuasionChk = form.getCheckBox("Check Box2")
 	  
 	  
 	  const lightArmor = form.getCheckBox("Check Box33")
 	  const mediumArmor = form.getCheckBox("Check Box34")
 	  const heavyArmor = form.getCheckBox("Check Box35")
 	  const shieldProf = form.getCheckBox("Check Box36")
+	  
+	  const spellcastingAbilityField = form.getTextField("SPELLCASTING ABILITY")
+	  const spellcastingModifierField = form.getTextField("SPELLCASTING MOD")
+	  const spellSaveDCField = form.getTextField("SPELL SAVE DC")
+	  const spellAttackBonusField = form.getTextField("SPELL ATTACK BONUS")
+	  
 
       // Fill in the basic info fields
 	  nameField.setText(document.getElementById("playerName").value)
@@ -118,7 +127,7 @@ const { PDFDocument } = PDFLib
 	  }
 	  
 	  levelField.setText('1')
-	  proficiencyField.setText('+2')
+	  proficiencyField.setText('+' + proficiencyBonus)
 	  
 	  const classHP = {
 		"Barbarian": 12,
@@ -238,6 +247,13 @@ const { PDFDocument } = PDFLib
 		  shieldProf.check();
 	  }
 	  
+	  if (perceptionChk.isChecked()) {
+		  let passivePerception = parseInt(wisMod) + parseInt(proficiencyBonus) + 10
+		  passivePerceptionField.setText(passivePerception.toString())
+	  } else {
+		  let passivePerception = parseInt(wisMod) + 10
+		  passivePerceptionField.setText(passivePerception.toString())
+	  }
 	  
 	  let aasimarTraits = [
 		" * Celestial Resistance - Resistance to Necrotic damage and Radiant damage.",
@@ -428,6 +444,41 @@ const { PDFDocument } = PDFLib
 				break;
 	  }
 	  
+	  
+	  
+	  
+	  let intSpellcasting = ["Wizard"]
+	  let wisSpellcasting = ["Cleric", "Druid", "Ranger"]
+	  let chaSpellcasting = ["Bard", "Paladin", "Sorcerer", "Warlock"]
+	  let baseSpellSaveDC = 8
+	  
+	  if (intSpellcasting.includes(selectedClass)) {
+		  spellcastingAbilityField.setText("Intelligence");
+		  let spellcastingAbilityModifier = intMod
+		  spellcastingModifierField.setText("+" + spellcastingAbilityModifier.toString())
+		  let spellSaveDC = parseInt(baseSpellSaveDC) + parseInt(proficiencyBonus) + parseInt(spellcastingAbilityModifier);
+		  spellSaveDCField.setText(spellSaveDC.toString())
+		  let spellAttackMod = parseInt(proficiencyBonus) + parseInt(spellcastingAbilityModifier);
+		  spellAttackBonusField.setText("+" + spellAttackMod.toString())
+	  }
+	  if (wisSpellcasting.includes(selectedClass)) {
+		  spellcastingAbilityField.setText("Wisdom");
+		  let spellcastingAbilityModifier = wisMod
+		  spellcastingModifierField.setText("+" + spellcastingAbilityModifier.toString())
+		  let spellSaveDC = parseInt(baseSpellSaveDC) + parseInt(proficiencyBonus) + parseInt(spellcastingAbilityModifier);
+		  spellSaveDCField.setText(spellSaveDC.toString())
+		  let spellAttackMod = parseInt(proficiencyBonus) + parseInt(spellcastingAbilityModifier);
+		  spellAttackBonusField.setText("+" + spellAttackMod.toString())
+	  }
+	  if (chaSpellcasting.includes(selectedClass)) {
+		  spellcastingAbilityField.setText("Charisma");
+		  let spellcastingAbilityModifier = chaMod
+		  spellcastingModifierField.setText("+" + spellcastingAbilityModifier.toString())
+		  let spellSaveDC = parseInt(baseSpellSaveDC) + parseInt(proficiencyBonus) + parseInt(spellcastingAbilityModifier);
+		  spellSaveDCField.setText(spellSaveDC.toString())
+		  let spellAttackMod = parseInt(proficiencyBonus) + parseInt(spellcastingAbilityModifier);
+		  spellAttackBonusField.setText("+" + spellAttackMod.toString())
+	  }
 
 
       // Fill the character image field with our Mario image
