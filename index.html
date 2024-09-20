@@ -6,7 +6,7 @@
   <meta name="description" content="Build a character for use in Dungeons and Dragons 5th Edition 2024!">
   <meta name="keywords" content="DnD, 27, point, buy, 5e, 2024, 5e2024, characterbuilder, fifth, edition, dungeon, dragon, dungeonsanddragons, D&D">
   <meta name="author" content="BirddieSoftware">
-  <script src="https://unpkg.com/pdf-lib@1.11.0"></script>
+  <script src="https://unpkg.com/pdf-lib@1.17.1"></script>
     <script src="https://unpkg.com/downloadjs@1.4.7"></script>
   <script src="pdf-edit.js"></script>
   <title>DnD 5e 2024 Character Builder</title>
@@ -682,6 +682,9 @@
   } else if (race === "Tiefling") {
     subraceContainer.style.display = "block";
     addSubraceOptions(["Abyssal", "Chthonic", "Infernal"]);
+  } else if (race === "Gnome") {
+	subraceContainer.style.display = "block";
+	addSubraceOptions(["Forest", "Rock"])
   } else {
     // Hide subrace dropdown if the race doesn't have subraces
     subraceContainer.style.display = "none";

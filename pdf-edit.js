@@ -17,6 +17,7 @@ const { PDFDocument } = PDFLib
       const classField = form.getTextField('Class')
       const speciesField = form.getTextField('Species')
       const subclassField = form.getTextField('Subclass')
+	  const speciesTraits = form.getTextField('SPECIES TRAITS')
 	  
       const levelField = form.getTextField('Level')
       const xpField = form.getTextField('XP Points')
@@ -55,6 +56,25 @@ const { PDFDocument } = PDFLib
 	  const wisChk = form.getCheckBox("Check Box17")
 	  const chaChk = form.getCheckBox("Check Box6")
 	  
+	  const athletics = form.getCheckBox("Check Box19")
+	  const acrobatics = form.getCheckBox("Check Box8")
+	  const slightOfHand = form.getCheckBox("Check Box9")
+	  const stealth = form.getCheckBox("Check Box10")
+	  const arcana = form.getCheckBox("Check Box24")
+	  const historyProf = form.getCheckBox("Check Box20")
+	  const investigation = form.getCheckBox("Check Box21")
+	  const nature = form.getCheckBox("Check Box22")
+	  const religion = form.getCheckBox("Check Box23")
+	  const animalHandling = form.getCheckBox("Check Box15")
+	  const insight = form.getCheckBox("Check Box13")
+	  const medicine = form.getCheckBox("Check Box12")
+	  const perception = form.getCheckBox("Check Box14")
+	  const survival = form.getCheckBox("Check Box16")
+	  const deception = form.getCheckBox("Check Box5")
+	  const intimidation = form.getCheckBox("Check Box4")
+	  const performance = form.getCheckBox("Check Box3")
+	  const persuasion = form.getCheckBox("Check Box2")
+	  
 	  
 	  const lightArmor = form.getCheckBox("Check Box33")
 	  const mediumArmor = form.getCheckBox("Check Box34")
@@ -68,9 +88,10 @@ const { PDFDocument } = PDFLib
 	  classField.setText(selectedClass)
 	  
 	  let species = document.getElementById("race").value
-	  const speciesList = ["Elf", "Goliath", "Tiefling"]
+	  const speciesList = ["Elf", "Goliath", "Tiefling", "Gnome"]
+	  let subrace = document.getElementById("subrace").value
 	  if (speciesList.includes(species)) {
-		  speciesField.setText(document.getElementById("subrace").value + " " + species)
+		  speciesField.setText(subrace + " " + species)
 	  }else {
 		speciesField.setText(species)
 	  }
@@ -79,7 +100,11 @@ const { PDFDocument } = PDFLib
 	  if (fastList.includes(species)) {
 		  speedField.setText("35")
 	  } else {
-		  speedField.setText("30")
+		  if (subrace == "Wood") {
+			speedField.setText("35")
+		  }else {
+			speedField.setText("30")
+		  }
 	  }
 	  
 	  const smallList = ["Gnome", "Halfling"]
@@ -213,6 +238,195 @@ const { PDFDocument } = PDFLib
 		  shieldProf.check();
 	  }
 	  
+	  
+	  let aasimarTraits = [
+		" * Celestial Resistance - Resistance to Necrotic damage and Radiant damage.",
+		" * Darkvision - Range 60ft",
+		" * Healing Hands - Magic Action, range touch, creature heals a number of d4s equal to your proficiency modifier. Once/Long Rest",
+		" * Light Bearer - Light Cantrip"
+	  ];
+	  
+	  let dragonbornTraits = [
+		" * Draconic Ancestry - Based on your dragon color, you gain affinity with an element which impacts your Breath Weapon and Damage Resistance.",
+		" * Breath Weapon - During attack action, can replace one attack with a 15-foor Cone or 30-foot Line 5-feet wide. Each creature hit makes Dex saving throw (DC 8 + Con mod + proficiency bonus). Damage type determined by Draconic Ancestry. Takes 1d10 -> 2d10 (lvl5) -> 3d10 (lvl 11) - > 4d10 (lvl 17). Can use number of times equal to your proficiency bonus/long rest.",
+		" * Damage Resistance - You have resistance to the damage type determined by your Draconic Ancestry trait.",
+		" * Darkvision - Range 60ft",
+		" * Draconic Flight - As a bonus action, gain Fly Speed equal to your speed that lasts 10 minutes. Can use once per long rest."
+	  ]
+	  
+	  let dwarfTraits = [
+		" * Darkvision - Range 120ft",
+		" * Dwarven Resilience - Resistance to Poison damage. Advantage on saving throws to avoid or end the Poisoned condition.",
+		" * Dwarven Toughness - +1 Max HP per level.",
+		" * Stonecunning - Bonus Action, gain Tremorsense with a range of 60ft for 10 minutes. Can only be used on stone surfaces. Can use a number of times equal to Proficiency Bonus per Long Rest."
+	  ]
+	  
+	  let elfTraits = [
+		" * Fey Ancestry - Advantage on Saving Throws to avoid or end the Charmed condition.",
+		" * Keen Senses - Proficiency in the Insight, perceptopn, or Survival skill.",
+		" * Trance - You don't need to skeep, and magic can't put you to sleep. You can finish a Long Rest in 4 hours if you spend those hours in a trancelike meditation, during which you retain consciousness."
+	  ]
+	  let drowTraits = [
+		" * Darkvision - Range 120ft",
+		" * Drow Lineage - You know the Dancing Lights cantrip. At 3rd level you know Faerie Fire, at 5th level you know Darkness."
+	  ]
+	  let highElfTraits = [
+		" * Darkvision - Range 60ft",
+		" * High Elf Lineage - You know one Wizard cantrip and can switch it when you finish a long rest. At 3rd level you know Detect Magic, at 5th level you know Misty Step."
+	  ]
+	  let woodElfTraits = [
+		" * Darkvision - Range  60ft",
+		" * Wood Elf Lineage - Your speed increases to 35 fet. You know the Druidcraft cantrip. At 3rd level you know Longstrider, at 5th level you know Pass without Trace." 
+	  ]
+	  
+	  let gnomeTraits = [
+		" * Darkvision - Range 60ft",
+		" * Gnomish Cunning - Advantage on Intelligence, Wisdom, and Charisma saving throws."
+	  ]
+	  let forestGnomeTraits = [
+		" * Gnomish Lineage - You know the Minor Illusion cantrip. You always have the Speak with Animals spell prepared anc can cast it without a spell slot a number of times equal to your Proficiency Bonus. You regain all expended uses on a Long Rest. You can also use any spell slots you have to cast the spell."
+	  ]
+	  let rockGnomeTraits = [
+		" * Gnomish Lineage - You know the Mending and Prestigitation cantrips. You can also spend 10 minutes casting Prestigitation to create small objects."
+	  ]
+	  
+	  let goliathTraits = [
+		" * Large Form - Starting at Level 5, you can change your size to Large as a bonus action for 10 minutes or until you end it. For that duration, you have Advantage on Strength checks, and your Speed increases by 10ft. Once per Long Rest.",
+		" * Powerful Build - You have Advantage on any saving throw you make to end the Grappled condition. You also count as one size larger when determining your carrying capacity.",
+		" * Giant Ancestry - You gain a supernatural boon from your ancestry. You can use the benefit a number of times equal to your Proficiency Bonus and regain all expended uses on a Long Rest."
+	  ]
+	  let cloudTraits = [
+		" * Cloud's Jaunt - As a bonus action, you magically teleport up to 30 feet to an unoccupied space you can see."
+	  ]
+	  let fireTraits = [
+		" * Fire's Burn - When you hit a target with an attack roll and deal damage to it, you can also deal 1d10 Fire damage to that target."
+	  ]
+	  let frostTraits = [
+		" * Frost's Chill - When you hit a target with an attack roll and deal damage to it, you can also deal 1d6 Cold damage to that target and reduce its Speed by 10ft until the start of your next turn."
+	  ]
+	  let hillTraits = [
+		" * Hill's Tumble - When you hit a Large or smaller creature with an attack roll and deal damage to it, you can give that target the Prone condition."
+	  ]
+	  let stoneTraits = [
+		" * Stone's Endurance - When you take damage, you can take a Reaction to roll 1d12. Add your Constitution modifier to the number rolled and reduce the damage by that total."
+	  ]
+	  let stormTraits = [
+		" * Storm's Thunder - When you take damage from a creature within 60 feet of you, you can take a Reaction to deal 1d8 Thunder damage to that creature."
+	  ]
+	  
+	  let halflingTraits = [
+		" * Brave - You have advantage on saving throws you make to avoid or end the Frightened condition.",
+		" * Halfling Nimbleness - You can move through the space of any creature that is a size larger than you, but you can't stop in the same space.",
+		" * Luck - When you roll a 1 on the d20 of a D20 Test, you can reroll the die, and you must use the new roll.",
+		" * Naturally Stealthy - You can take the Hide action even when you are obscured only by a creature that is at least one size larger than you."
+	  ]
+	  
+	  let humanTraits = [
+		" * Resourceful - You gain Heroic Inspiration whenever you finish a Long Rest.",
+		" * Skillful - You gain proficiency in one skill of your choice.",
+		" * Versatile - You gain an Origin feat of your choice."
+	  ]
+	  
+	  let orcTraits = [
+		" * Adrenaline Rush - You can take the Dash action as a Bonus Action. When you do so, you gain a number of Temporary Hit Points equal to your Proficiency Bonus. You can use this trait a number of times equal to your Proficiency Bonus and regain all uses on a Short or Long Rest.",
+		" * Darkvision - Range 120ft",
+		" * Relentless Endurance - When you are reduced to 0 Hit Points but not killed outright, you can drop to 1 Hit Point instead. Once per Long Rest."
+	  ]
+	  
+	  let tieflingTraits = [
+		" * Darkvision - Range 60ft",
+		" * Otherworldly Presence - You know the Thaumaturgy cantrip. When you cast it with this trait, the spell uses the same spellcasting ability you use for your Fiending Legacy trait.",
+		" * Fiendish Legacy - At levels 3 and 5 you know a spell depending on your chosen Fiendish Legacy. You always have that spell prepared. You can cast it once without a spell slot per Long Rest. You can also cast it with a spell slot. Intelligence, Wisdom, or Charisma is your spellcasting ability for spells you cast with this trait."
+	  ]
+	  let abyssalTraits = [
+		" * Abyssal - You know the Poison Spray cantrip. You have resistance to Poison damage. At 3rd level you know Ray of Sickness. At 5th level you know Hold person."
+	  ]
+	  let chthonicTraits = [
+		" * Chthonic - You know the Chill Touch cantrip. You have resistance to Necrotic damage. At 3rd level you know False Life. At 5th level you know Ray of Enfeeblement."
+	  ]
+	  let infernalTraits = [
+		" * Infernal - You know the Fire Bolt cantrip. You have resistance to Fire damage. At 3rd level you know Hellish Rebuke. At 5th level you know Darkness."
+	  ]
+	  
+	  switch (species){
+			case "Aasimar":
+				speciesTraits.setText(aasimarTraits.join('\n'));
+				break;
+			
+			case "Dragonborn":
+				speciesTraits.setText(dragonbornTraits.join('\n'));
+				break;
+			case "Dwarf":
+				speciesTraits.setText(dwarfTraits.join('\n'));
+				break;
+			case "Elf":
+				switch(subrace) {
+					case "High":
+						speciesTraits.setText(elfTraits.join('\n') + '\n' + highElfTraits.join('\n'));
+						break;
+					case "Wood":
+						speciesTraits.setText(elfTraits.join('\n') + '\n' + woodElfTraits.join('\n'));
+						break;
+					case "Dark":
+						speciesTraits.setText(elfTraits.join('\n') + '\n' + darkElfTraits.join('\n'));
+						break;
+				}
+				break;
+			case "Gnome":
+				switch(subrace){
+					case "Forest":
+						speciesTraits.setText(gnomeTraits.join('\n') + '\n' + forestGnomeTraits.join('\n'));
+						break;
+					case "Rock":
+						speciesTraits.setText(gnomeTraits.join('\n') + '\n' + rockGnomeTraits.join('\n'));
+						break;
+				}
+				break;
+			case "Goliath":
+				switch (subrace) {
+					case "Cloud Giant":
+						speciesTraits.setText(goliathTraits.join('\n') + '\n' + cloudTraits.join('\n'));
+						break;
+					case "Fire Giant":
+						speciesTraits.setText(goliathTraits.join('\n') + '\n' + fireTraits.join('\n'));
+						break;
+					case "Frost Giant":
+						speciesTraits.setText(goliathTraits.join('\n') + '\n' + frostTraits.join('\n'));
+						break;
+					case "Hill Giant":
+						speciesTraits.setText(goliathTraits.join('\n') + '\n' + hillTraits.join('\n'));
+						break;
+					case "Stone Giant":
+						speciesTraits.setText(goliathTraits.join('\n') + '\n' + stoneTraits.join('\n'));
+						break;
+					case "Storm Giant":
+						speciesTraits.setText(goliathTraits.join('\n') + '\n' + stormTraits.join('\n'));
+						break;
+				}
+				break;
+			case "Halfling":
+				speciesTraits.setText(halflingTraits.join('\n'));
+				break;
+			case "Human":
+				speciesTraits.setText(humanTraits.join('\n'));
+				break;
+			case "Orc":
+				speciesTraits.setText(orcTraits.join('\n'));
+				break;
+			case "Tiefling":
+				switch(subrace) {
+					case "Abyssal":
+						speciesTraits.setText(tieflingTraits.join('\n') + '\n' + abyssalTraits.join('\n'));
+						break;
+					case "Chthonic":
+						speciesTraits.setText(tieflingTraits.join('\n') + '\n' + chthonicTraits.join('\n'));
+						break;
+					case "Infernal":
+						speciesTraits.setText(tieflingTraits.join('\n') + '\n' + infernalTraits.join('\n'));
+						break;
+				}
+				break;
+	  }
 	  
 
 
