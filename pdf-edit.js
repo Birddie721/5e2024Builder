@@ -20,6 +20,8 @@ const { PDFDocument } = PDFLib
       const speciesField = form.getTextField('Species')
       const subclassField = form.getTextField('Subclass')
 	  const speciesTraits = form.getTextField('SPECIES TRAITS')
+	  const classFeatures1 = form.getTextField('CLASS FEATURES 1')
+	  const classFeatures2 = form.getTextField('CLASS FEATURES 2')
 	  
       const levelField = form.getTextField('Level')
       const xpField = form.getTextField('XP Points')
@@ -195,8 +197,11 @@ const { PDFDocument } = PDFLib
 		  chaModField.setText(chaMod)
 	  }
 	  
-	  
-	  initiativeField.setText(dexMod)
+	  if (dexMod === "-1") {
+		  initiativeField.setText(dexMod)
+	  } else {
+		initiativeField.setText("+" + dexMod)
+	  }
 	  let hp = classHP[selectedClass]
 	  let modifiedHP = parseInt(hp) + parseInt(conMod)
 	  hpField.setText(modifiedHP.toString())
@@ -441,6 +446,160 @@ const { PDFDocument } = PDFLib
 						speciesTraits.setText(tieflingTraits.join('\n') + '\n' + infernalTraits.join('\n'));
 						break;
 				}
+				break;
+	  }
+	  
+	  
+	  let barbarianTraits1 = [
+		" * Rage - You can enter a Rage as a Bonus Action if you are not wearing Heavy armor. You can enter your Rage the number of times shown for your Barbarian level. You regain one expended use when you finish a Short Rest and all uses when you finish a Long Rest. While in your Rage, you gain Resistance to Bludgeoning, Piercing, and Slashing damage and gain Advantage on Strength checks and Strength saving throws. During your rage, when you make an attack using Strength and deal damage to the target, you deal bonus damage shown for your Barbarian level. You cannot maintain Concentration and cannot cast spells during a Rage. The Rage lasts for one turn, but can be extended by one turn if you make an attack roll against an enemy, force an enemy to make a saving throw, or take a Bonus Action to extend your rage. You can maintain a Rage for a maximmum of 10 minutes."
+	  ]
+	  let barbarianTraits2 = [
+		" * Unarmored Defense - While you aren't wearing any armor, your base Armor Class equals 10 plus your Dexterity and Constitution modifiers. You can use a Shield and still gain this benefit.\n",
+		" * Weapon Mastery - You gain the mastery properties of two kinds of Simple or Martial Melee weapons of your choice. Whenever you Long Rest you can change one of those weapon choices."
+	  ]
+	  
+	  let bardTraits1 = [
+		" * Bardic Inspiration - As a Bonus Action you can inspire another creature within 60ft who can hear you. This creature gains one of your Bardic Inspiration dice. A creature can only have one Bardic Inspiration die at a time. This creature can, in the next hour, roll the Bardic Inspiration die and add the number rolled to a d20 test. The Bardic Inspiration die is expended when it's rolled. This feature can be used a number of times equal to your Charisma modifier and all uses are regained on a Long Rest."
+	  ]
+	  let bardTraits2 = [
+		" * Spellcasting - You know two cantrips from the Bard spell list and can replace one cantrip whenever you gain a Bard level. The Bard Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest.  You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose four level 1 spells from the Bard spell list. Whenever you gain a Bard level, you can replace one spell on your list with another Bard spell for which you have spell slots."
+	  ]
+	  
+	  let clericTraits1 = [
+		" * Divine Order - You have dedicated yourself to one of the following sacred roles of your choice:",
+		"   - Protector: You gain proficiency with martial weapons and training with Heavy armor.",
+		"   - Thaumaturge: You know one extra cantrip from the Cleric spell list. In addition, your mystical connection to the divine gives you a bonus use of your Arcana and Religion checks equal to your Wisdom modifier."
+	  ]
+	  let clericTraits2 = [
+		" * Spellcasting - You know three cantrips from the Cleric spell list and can replace one cantrip whenever you gain a Cleric level. The Cleric Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest. You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose four level 1 spells from the Cleric spell list. Whenever you Long Rest, you can change your list of prepared spells, replacing any of the spells there with other Cleric spells for which you have spell slots."
+	  ]
+	  
+	  let druidTraits1 = [
+		" * Druidic - You know Druidic, the secret language of the Druids. You also always have the Speak with Animals spell prepared.\n",
+		" * Primal Order - You have dedicated yourself to one of the following savred roles of your choice:",
+		"   - Magician: You know one extra cantrip. You gain a bonus to your Arcana and Nature checks equal to your Wisdom modifier.",
+		"   - Warden: You gain proficiency with Martial weapons and training with Medium armor."
+	  ]
+	  let druidTraits2 = [
+		" * Spellcasting - You know two cantrips from the Druid spell list and can replace one cantrip whenever you gain a Druid level. The Druid Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest. You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose four level 1 spells from the Druid spell list. Whenever you Long Rest, you can change your list of prepared spells, replacing any of the spells there with other Druid spells for which you have spell slots."
+	  ]
+	  
+	  let fighterTraits1 = [
+		" * Fighting Style - You gain a Fighting Style feat. Whenever you gain a Fighter level, you can replace the feat you chose with a different Fighting Style feat.\n",
+		" * Weapon Mastery - You gain the mastery properties of two kinds of Simple or Martial Melee weapons of your choice. Whenever you Long Rest you can change one of those weapon choices."
+	  ]
+	  let fighterTraits2 = [
+		" * Second Wind - As a Bonus Action, you can regain Hit Points equal to 1d10 plus your Fighter Level. You can use this feature twice. You regain one expended use when you finish a Short Rest, and regain all expended uses when you finish a Long Rest."
+	  ]
+	  
+	  let monkTraits1 = [
+		" * Martial Arts - You gain the following benefits when you are unarmed or wielding only Monk weapons, and not wearing armor or wielding a Shield:",
+		" - You can make an Unarmed Strike as a Bonus Action",
+		" - You can roll 1d6 in place of the normal damage of your Unarmed Strike or Monk weapons.",
+		" - You can use your Dexterity modifier instead of your Strength modifier for the attack and damage rolls of your Unarmed Strikes and Monk weapons. In addition, when you use the Grapple or Shive option of your Unarmed Strike, you can use your Dexterity modifier instead of your Strength modifier to determine the save DC."
+	  ]
+	  let monkTraits2 = [
+		" * Unarmored Defense - While you aren't wearing any armor, your base Armor Class equals 10 plus your Dexterity and Wisdom modifiers.",
+		"                                                                                                                                                                                                                                                                                                                                                   "
+	  ]
+	  
+	  let paladinTraits1 = [
+		" * Lay On Hands - You have a pool of healing power that replenishes when you finsh a Long Rest. With that pool, you can restore a total number of Hit Points equal to five times your Paladin level. As a Bonus Action, you can touch a creature (yourself included) and restore a number of Hit Points to that creature up to the maximum amount remaining in the pool. You can also expend 5 Hit Points from the pool to remove the Poisoned condition from the creature; those points don't also restore Hit Points to the creature.\n",
+		" * Weapon Mastery - You gain the mastery properties of two kinds of weapons of your choice with which you have proficiency. Whenever you Long Rest you can change the kinds of weapons you chose."
+	  ]
+	  let paladinTraits2 = [
+		" * Spellcasting - The Paladin Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest. You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose two level 1 spells from the Paladin spell list. Whenever you Long Rest, you can replace one spell on your list with another Paladin spell for which you have spell slots."
+	  ]
+	  
+	  let rangerTraits1 = [
+		" * Favored Enemy - You always have the Hunter's Mark spell prepared. You can cast it twice without expending a spell slot, and regain all expended uses when you finish a Long Rest.\n",
+		" * Weapon Mastery - You gain the mastery properties of two kinds of weapons of your choice with which you have proficiency. Whenever you Long Rest you can change the kinds of weapons you chose."
+	  ]
+	  let rangerTraits2 = [
+		" * Spellcasting - The Ranger Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest. You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose two level 1 spells from the Ranger spell list. Whenever you Long Rest, you can replace one spell on your list with another Ranger spell for which you have spell slots."
+	  ]
+	  
+	  let rogueTraits1 = [
+		" * Expertise - You gain Expertise in two of your skill proficiencies of your choice.\n",
+		" * Weapon Mastery - You gain the mastery properties of two kinds of weapons of your choice with which you have proficiency. Whenever you Long Rest you can change the kinds of weapons you chose."
+	  ]
+	  let rogueTraits2 = [
+		" * Sneak Attack - Once per turn, you can deal an extra 1d6 damage to one creature you hit with an attack roll if you have Advantage on the roll and the attack uses a Finesse or Ranged weapon. You don't need Advantage on the attack roll if at least one of your allies is within 5 feet of the target, the ally doesn't have the Incapacitated condition, and you don't have Disadvantage on the attack roll.\n",
+		" * Thieves' Cant - You know Thieves' Cant and one other language of your choice."
+	  ]
+	  
+	  let sorcererTraits1 = [
+		" * Spellcasting - You know four cantrips from the Sorcerer spell list and can replace one cantrip whenever you gain a Sorcerer level. The Sorcerer Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest.  You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose two level 1 spells from the Sorcerer spell list. Whenever you gain a Sorcerer level, you can replace one spell on your list with another Sorcerer spell for which you have spell slots."
+	  ]
+	  let sorcererTraits2 = [
+		" * Innate Sorcery - On a Bonus Action, for one minute, you gain Advantage on the attack rolls of Sorcerer spells you cast and the spell save DC of your Sorcerer spells increases by 1. You can use this feature twice and regain all expended uses on a Long Rest."
+	  ]
+	  
+	  let warlockTraits1 = [
+		" * Eldrich Invocations - You gain one Eldrich invocation of your choice. Whenever you gain a Warlock level, you can replace onw of your invocations with another one for which you qualify. When you gain certain Warlock levels, you gain more invocations of your choice.",
+		"                                                                                                                    "
+	  ]
+	  let warlockTraits2 = [
+		" * Pact Magic - You know two cantrips from the Warlock spell list and can replace one cantrip whenever you gain a Warlock level. The Warlock Features table shows how many spell slots you have to cast your Warlock spells of levels 1-5. The table also shows the level of those slots, all of which are the same level. You regain all expended Pact Magic spell slots when you finish a Short or Long Rest.  You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose two level 1 spells from the Warlock spell list. Whenever you gain a Warlock level, you can replace one spell on your list with another Warlock spell of an eligible level."
+	  ]
+	  
+	  let wizardTraits1 = [
+		" * Spellcasting - You know three cantrips from the Wizard spell list and can replace one cantrip whenever you finish a Long Rest. As a Wizard, you have a spellbook. The book contains the level 1+ spells you know. It starts with six level 1 Wizard spells of your choice. Whenever you gain a Wizard level after 1, add two Wizard spells of your choice to your spellbook. The Wizard Features table shows how many spell slots you have to cast your level 1+ spells. You regain all expended slots when you finish a Long Rest.  You prepare the list of level 1+ spells that are available for you to cast with this feature. To start, choose four level 1 spells from your spellbook. Whenever you finish a Long Rest, you can change your list of prepared spells, replacing any of the spells there with spells from your spellbook."
+	  ]
+	  let wizardTraits2 = [
+		" * Ritual Adept - You can cast any spell as a Ritual if that spell has the Ritual tag and the spell is in your spellbook. You needn't have the spell prepared, but you must read from the book to cast a spell in this way.\n",
+		" * Arcane Recovery - When you finish a Short Rest, you can choose expended spell slots to recover. The spell slots can have a combined level equal to no more than half your Wizard level rounded up, and none of the slots can be level 6 or higher. Once you use this feature, you can't do so again until you finish a Long Rest."
+	  ]
+	  
+	  
+	  switch(selectedClass) {
+			case "Barbarian":
+				classFeatures1.setText(barbarianTraits1.join('\n'));
+				classFeatures2.setText(barbarianTraits2.join('\n'));
+				break;
+			case "Bard":
+				classFeatures1.setText(bardTraits1.join('\n'));
+				classFeatures2.setText(bardTraits2.join('\n'));
+				break;
+			case "Cleric":
+				classFeatures1.setText(clericTraits1.join('\n'));
+				classFeatures2.setText(clericTraits2.join('\n'));
+				break;
+			case "Druid":
+				classFeatures1.setText(druidTraits1.join('\n'));
+				classFeatures2.setText(druidTraits2.join('\n'));
+				break;
+			case "Fighter":
+				classFeatures1.setText(fighterTraits1.join('\n'));
+				classFeatures2.setText(fighterTraits2.join('\n'));
+				break;
+			case "Monk":
+				classFeatures1.setText(monkTraits1.join('\n'));
+				classFeatures2.setText(monkTraits2.join('\n'));
+				break;
+			case "Paladin":
+				classFeatures1.setText(paladinTraits1.join('\n'));
+				classFeatures2.setText(paladinTraits2.join('\n'));
+				break;
+			case "Ranger":
+				classFeatures1.setText(rangerTraits1.join('\n'));
+				classFeatures2.setText(rangerTraits2.join('\n'));
+				break;
+			case "Rogue":
+				classFeatures1.setText(rogueTraits1.join('\n'));
+				classFeatures2.setText(rogueTraits2.join('\n'));
+				break;
+			case "Sorcerer":
+				classFeatures1.setText(sorcererTraits1.join('\n'));
+				classFeatures2.setText(sorcererTraits2.join('\n'));
+				break;
+			case "Warlock":
+				classFeatures1.setText(warlockTraits1.join('\n'));
+				classFeatures2.setText(warlockTraits2.join('\n'));
+				break;
+			case "Wizard":
+				classFeatures1.setText(wizardTraits1.join('\n'));
+				classFeatures2.setText(wizardTraits2.join('\n'));
 				break;
 	  }
 	  
