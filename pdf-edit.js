@@ -86,6 +86,39 @@ const { PDFDocument } = PDFLib
 	  const heavyArmor = form.getCheckBox("Check Box35")
 	  const shieldProf = form.getCheckBox("Check Box36")
 	  
+	  const weapon1Name = form.getTextField("NAME - WEAPON 1")
+	  const weapon1Bonus = form.getTextField("BONUS/DC - WEAPON 1")
+	  const weapon1Damage = form.getTextField("DAMAGE/TYPE - WEAPON 1")
+	  const weapon1Notes = form.getTextField("NOTES - WEAPON 1")
+	  
+	  const weapon2Name = form.getTextField("NAME - WEAPON 2")
+	  const weapon2Bonus = form.getTextField("BONUS/DC - WEAPON 2")
+	  const weapon2Damage = form.getTextField("DAMAGE/TYPE - WEAPON 2")
+	  const weapon2Notes = form.getTextField("NOTES - WEAPON 2")
+	  
+	  const weapon3Name = form.getTextField("NAME - WEAPON 3")
+	  const weapon3Bonus = form.getTextField("BONUS/DC - WEAPON 3")
+	  const weapon3Damage = form.getTextField("DAMAGE/TYPE - WEAPON 3")
+	  const weapon3Notes = form.getTextField("NOTES - WEAPON 3")
+	  
+	  const weapon4Name = form.getTextField("NAME - WEAPON 4")
+	  const weapon4Bonus = form.getTextField("BONUS/DC - WEAPON 4")
+	  const weapon4Damage = form.getTextField("DAMAGE/TYPE - WEAPON 4")
+	  const weapon4Notes = form.getTextField("NOTES - WEAPON 4")
+	  
+	  const weapon5Name = form.getTextField("NAME - WEAPON 5")
+	  const weapon5Bonus = form.getTextField("BONUS/DC - WEAPON 5")
+	  const weapon5Damage = form.getTextField("DAMAGE/TYPE - WEAPON 5")
+	  const weapon5Notes = form.getTextField("NOTES - WEAPON 5")
+	  
+	  const weapon6Name = form.getTextField("NAME - WEAPON 6")
+	  const weapon6Bonus = form.getTextField("BONUS/DC - WEAPON 6")
+	  const weapon6Damage = form.getTextField("DAMAGE/TYPE - WEAPON 6")
+	  const weapon6Notes = form.getTextField("NOTES - WEAPON 6")
+	  
+	  const hasShieldChk = form.getCheckBox("shield chk")
+	  const shieldAC = 2;
+	  
 	  const spellcastingAbilityField = form.getTextField("SPELLCASTING ABILITY")
 	  const spellcastingModifierField = form.getTextField("SPELLCASTING MOD")
 	  const spellSaveDCField = form.getTextField("SPELL SAVE DC")
@@ -637,6 +670,274 @@ const { PDFDocument } = PDFLib
 		  spellSaveDCField.setText(spellSaveDC.toString())
 		  let spellAttackMod = parseInt(proficiencyBonus) + parseInt(spellcastingAbilityModifier);
 		  spellAttackBonusField.setText("+" + spellAttackMod.toString())
+	  }
+	  
+	  
+	  let strengthToHit = (parseInt(strMod) + parseInt(proficiencyBonus)).toString()
+	  let dexterityToHit = (parseInt(dexMod) + parseInt(proficiencyBonus)).toString()
+	  let finesse = false
+	  let hasShield = false
+	  
+	  if (parseInt(dexMod) >= parseInt(strMod)){
+		  finesse = true
+	  } 
+	  
+	  let ac = 10;
+	  
+	  switch(selectedClass) {
+			case "Barbarian":
+				weapon1Name.setText("Greataxe")
+				weapon1Bonus.setText("+" + strengthToHit)
+				weapon1Damage.setText("1d12 + " + strMod + " S")
+				weapon1Notes.setText("Heavy, Two-Handed")
+				weapon2Name.setText("Handaxe")
+				weapon2Bonus.setText("+" + strengthToHit)
+				weapon2Damage.setText("1d6 + " + strMod + " S")
+				weapon2Notes.setText("Light, Thrown (Range 20/60)")
+				ac = ac + parseInt(dexMod) + parseInt(conMod)
+				break;
+			case "Bard":
+				if (finesse) {
+					weapon1Name.setText("Dagger")
+					weapon1Bonus.setText("+" + dexterityToHit)
+					weapon1Damage.setText("1d4 +" + dexMod + " P")
+					weapon1Notes.setText("Finesse, Light, Thrown (Range 20/60")
+				} else{
+					weapon1Name.setText("Dagger")
+					weapon1Bonus.setText("+" + strengthToHit)
+					weapon1Damage.setText("1d4 +" + strMod + " P")
+					weapon1Notes.setText("Finesse, Light, Thrown (Range 20/60")
+				}
+				ac = ac + parseInt(dexMod) + 1
+				break;
+			case "Cleric":
+				hasShield = true
+				weapon1Name.setText("Mace")
+				weapon1Bonus.setText("+" + strengthToHit)
+				weapon1Damage.setText("1d6 +" + strMod + " B")
+				weapon1Notes.setText("")
+				let clerDexMod = parseInt(dexMod)
+				if (clerDexMod > 2){
+					clerDexMod = 2
+				}
+				ac = ac + clerDexMod + 3 + 2
+				break;
+			case "Druid":
+				hasShield = true
+				weapon1Name.setText("Quarterstaff")
+				weapon1Bonus.setText("+" + strengthToHit)
+				weapon1Damage.setText("1d6 +" + strMod + " B")
+				weapon1Notes.setText("Versatile (1d8)")
+				weapon2Name.setText("Sickle")
+				weapon2Bonus.setText("+" + strengthToHit)
+				weapon2Damage.setText("1d4 + " + strMod + " S")
+				weapon2Notes.setText("Light")
+				ac = ac + parseInt(dexMod) + 1
+				break;
+			case "Fighter":
+				if (!finesse) {
+					weapon1Name.setText("Greatsword")
+					weapon1Bonus.setText("+" + strengthToHit)
+					weapon1Damage.setText("2d6 + " + strMod + " S")
+					weapon1Notes.setText("Heavy, Two-Handed")
+					weapon2Name.setText("Flail")
+					weapon2Bonus.setText("+" + strengthToHit)
+					weapon2Damage.setText("1d8 + " + strMod + " B")
+					weapon2Notes.setText("")
+					weapon3Name.setText("Javelin")
+					weapon3Bonus.setText("+" + strengthToHit)
+					weapon3Damage.setText("1d6 + " + strMod + " P")
+					weapon3Notes.setText("Thrown (Range 30/120)")
+					ac = 16
+				} else {
+					weapon1Name.setText("Longbow")
+					weapon1Bonus.setText("+" + dexterityToHit)
+					weapon1Damage.setText("1d8 + " + dexMod + " P")
+					weapon1Notes.setText("Ammunition (Range 150/600; Arrow), Heavy, Two-Handed")
+					weapon2Name.setText("Shortsword")
+					weapon2Bonus.setText("+" + dexterityToHit)
+					weapon2Damage.setText("1d6 + " + dexMod + " P")
+					weapon2Notes.setText("Finesse, Light")
+					weapon3Name.setText("Scimtar")
+					weapon3Bonus.setText("+" + dexterityToHit)
+					weapon3Damage.setText("1d6 + " + dexMod + " S")
+					weapon3Notes.setText("Finesse, Light")
+					ac = ac + parseInt(dexMod) + 2
+				}
+				break;
+			case "Monk":
+				if (finesse) {
+					weapon1Name.setText("Unarmed Strike")
+					weapon1Bonus.setText("+" + dexterityToHit)
+					weapon1Damage.setText("1d6 +" + dexMod + " B")
+					weapon1Notes.setText("")
+					weapon2Name.setText("Spear")
+					weapon2Bonus.setText("+" + dexterityToHit)
+					weapon2Damage.setText("1d6 +" + dexMod + " P")
+					weapon2Notes.setText("Thrown (Range 20/60), Versatile (1d8)")
+					weapon3Name.setText("Dagger")
+					weapon3Bonus.setText("+" + dexterityToHit)
+					weapon3Damage.setText("1d6 +" + dexMod + " P")
+					weapon3Notes.setText("Finesse, Light, Thrown (Range 20/60)")
+				} else{
+					weapon1Name.setText("Unarmed Strike")
+					weapon1Bonus.setText("+" + strengthToHit)
+					weapon1Damage.setText("1d6 +" + strMod + " B")
+					weapon1Notes.setText("")
+					weapon2Name.setText("Spear")
+					weapon2Bonus.setText("+" + strengthToHit)
+					weapon2Damage.setText("1d6 +" + strMod + " B")
+					weapon2Notes.setText("Thrown (Range 20/60), Versatile (1d8)")
+					weapon3Name.setText("Dagger")
+					weapon3Bonus.setText("+" + strengthToHit)
+					weapon3Damage.setText("1d6 +" + strMod + " B")
+					weapon3Notes.setText("Finesse, Light, Thrown (Range 20/60)")
+				}
+				ac = ac + parseInt(dexMod) + parseInt(wisMod)
+				break;
+			case "Paladin":
+				hasShield = true
+				weapon1Name.setText("Longsword")
+				weapon1Bonus.setText("+" + strengthToHit)
+				weapon1Damage.setText("1d8 +" + strMod + " S")
+				weapon1Notes.setText("Versatile (1d10)")
+				weapon2Name.setText("Javelin")
+				weapon2Bonus.setText("+" + strengthToHit)
+				weapon2Damage.setText("1d6 + " + strMod + " P")
+				weapon2Notes.setText("Thrown (Range 30/120)")
+				ac = 16 + 2
+				break;
+			case "Ranger":
+				if (finesse) {
+					weapon1Name.setText("Longbow")
+					weapon1Bonus.setText("+" + dexterityToHit)
+					weapon1Damage.setText("1d8 + " + dexMod + " P")
+					weapon1Notes.setText("Ammunition (Range 150/600; Arrow), Heavy, Two-Handed")
+					weapon2Name.setText("Shortsword")
+					weapon2Bonus.setText("+" + dexterityToHit)
+					weapon2Damage.setText("1d6 + " + dexMod + " P")
+					weapon2Notes.setText("Finesse, Light")
+					weapon3Name.setText("Scimtar")
+					weapon3Bonus.setText("+" + dexterityToHit)
+					weapon3Damage.setText("1d6 + " + dexMod + " S")
+					weapon3Notes.setText("Finesse, Light")
+				} else {
+					weapon1Name.setText("Longbow")
+					weapon1Bonus.setText("+" + dexterityToHit)
+					weapon1Damage.setText("1d8 + " + dexMod + " P")
+					weapon1Notes.setText("Ammunition (Range 150/600; Arrow), Heavy, Two-Handed")
+					weapon2Name.setText("Shortsword")
+					weapon2Bonus.setText("+" + strengthToHit)
+					weapon2Damage.setText("1d6 + " + strMod + " P")
+					weapon2Notes.setText("Finesse, Light")
+					weapon3Name.setText("Scimtar")
+					weapon3Bonus.setText("+" + strengthToHit)
+					weapon3Damage.setText("1d6 + " + strMod + " S")
+					weapon3Notes.setText("Finesse, Light")
+				}
+				ac = ac + parseInt(dexMod) + 2
+				break;
+			case "Rogue":
+				if (finesse) {
+					weapon1Name.setText("Shortsword")
+					weapon1Bonus.setText("+" + dexterityToHit)
+					weapon1Damage.setText("1d6 + " + dexMod + " P")
+					weapon1Notes.setText("Finesse, Light")
+					weapon2Name.setText("Shortbow")
+					weapon2Bonus.setText("+" + dexterityToHit)
+					weapon2Damage.setText("1d6 + " + dexMod + " P")
+					weapon2Notes.setText("Ammunition (Range 80/320; Arrow), Two-Handed")
+					weapon3Name.setText("Dagger")
+					weapon3Bonus.setText("+" + dexterityToHit)
+					weapon3Damage.setText("1d4 +" + dexMod + " P")
+					weapon3Notes.setText("Finesse, Light, Thrown (Range 20/60")
+				} else {
+					weapon1Name.setText("Shortsword")
+					weapon1Bonus.setText("+" + strengthToHit)
+					weapon1Damage.setText("1d6 + " + strMod + " P")
+					weapon1Notes.setText("Finesse, Light")
+					weapon2Name.setText("Shortbow")
+					weapon2Bonus.setText("+" + dexterityToHit)
+					weapon2Damage.setText("1d6 + " + dexMod + " P")
+					weapon2Notes.setText("Ammunition (Range 80/320; Arrow), Two-Handed")
+					weapon3Name.setText("Dagger")
+					weapon3Bonus.setText("+" + strengthToHit)
+					weapon3Damage.setText("1d4 +" + strMod + " P")
+					weapon3Notes.setText("Finesse, Light, Thrown (Range 20/60")
+				}
+				ac = ac + parseInt(dexMod) + 1
+				break;
+			case "Sorcerer":
+				if (finesse) {
+					weapon1Name.setText("Spear")
+					weapon1Bonus.setText("+" + strengthToHit)
+					weapon1Damage.setText("1d6 + " + strMod + " P")
+					weapon1Notes.setText("Thrown (Range 20/60), Versatile (1d8)")
+					weapon2Name.setText("Dagger")
+					weapon2Bonus.setText("+" + dexterityToHit)
+					weapon2Damage.setText("1d4 +" + dexMod + " P")
+					weapon2Notes.setText("Finesse, Light, Thrown (Range 20/60")
+				} else {
+					weapon1Name.setText("Spear")
+					weapon1Bonus.setText("+" + strengthToHit)
+					weapon1Damage.setText("1d6 + " + strMod + " P")
+					weapon1Notes.setText("Thrown (Range 20/60), Versatile (1d8)")
+					weapon2Name.setText("Dagger")
+					weapon2Bonus.setText("+" + strengthToHit)
+					weapon2Damage.setText("1d4 +" + strMod + " P")
+					weapon2Notes.setText("Finesse, Light, Thrown (Range 20/60")
+				}
+				ac = ac + parseInt(dexMod)
+				break;
+			case "Warlock":
+				if (finesse) {
+					weapon1Name.setText("Sickle")
+					weapon1Bonus.setText("+" + strengthToHit)
+					weapon1Damage.setText("1d4 + " + strMod + " S")
+					weapon1Notes.setText("Light")
+					weapon2Name.setText("Dagger")
+					weapon2Bonus.setText("+" + dexterityToHit)
+					weapon2Damage.setText("1d4 +" + dexMod + " P")
+					weapon2Notes.setText("Finesse, Light, Thrown (Range 20/60")
+				} else {
+					weapon1Name.setText("Sickle")
+					weapon1Bonus.setText("+" + strengthToHit)
+					weapon1Damage.setText("1d4 + " + strMod + " S")
+					weapon1Notes.setText("Light")
+					weapon2Name.setText("Dagger")
+					weapon2Bonus.setText("+" + strengthToHit)
+					weapon2Damage.setText("1d4 +" + strMod + " P")
+					weapon2Notes.setText("Finesse, Light, Thrown (Range 20/60")
+				}
+				ac = ac + parseInt(dexMod) + 1
+				break;
+			case "Wizard":
+				if (finesse) {
+					weapon1Name.setText("Quarterstaff")
+					weapon1Bonus.setText("+" + strengthToHit)
+					weapon1Damage.setText("1d6 + " + strMod + " B")
+					weapon1Notes.setText("Versatile (1d8)")
+					weapon2Name.setText("Dagger")
+					weapon2Bonus.setText("+" + dexterityToHit)
+					weapon2Damage.setText("1d4 +" + dexMod + " P")
+					weapon2Notes.setText("Finesse, Light, Thrown (Range 20/60")
+				} else {
+					weapon1Name.setText("Quarterstaff")
+					weapon1Bonus.setText("+" + strengthToHit)
+					weapon1Damage.setText("1d6 + " + strMod + " B")
+					weapon1Notes.setText("Versatile (1d8)")
+					weapon2Name.setText("Dagger")
+					weapon2Bonus.setText("+" + strengthToHit)
+					weapon2Damage.setText("1d4 +" + strMod + " P")
+					weapon2Notes.setText("Finesse, Light, Thrown (Range 20/60")
+				}
+				ac = ac + parseInt(dexMod)
+				break;
+	  }
+	  acField.setText(ac.toString())
+	  
+	  if (hasShield) {
+		  hasShieldChk.check()
 	  }
 
 
