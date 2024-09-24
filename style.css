@@ -138,6 +138,13 @@ body {
 		width:auto;
 	}
 	
+	.class-features {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      max-width: 600px;
+	
 	@media only screen and (max-width: 768px){
 		.small-screen-fix {
 			width:fit-content;

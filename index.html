@@ -45,7 +45,7 @@
 		</div>
 
 		<label for="class">Class:</label>
-		<select id="class" name="class">
+		<select id="class" name="class" onchange="updateClassFeatures()">
 			<option value="" disabled selected>Select your class</option>
 			<option value="Barbarian">Barbarian</option>
 			<option value="Bard">Bard</option>
@@ -328,11 +328,51 @@
 </table>
 
 		<button style="margin:auto" class="class-button" onclick="clearStats()">Clear</button>
+		
 	
   <div class="price-pool">
     <p>Total Points: <span id="pricePool">27 / 27</span></p><br>
 	<p>Background Points: <span id="modifierPool">3 /3</span></p>
   </div>
+
+  <!-- Div to display the selected class features -->
+  <div id="class-features" class="class-features">
+    <!-- Class features will be populated here -->
+  </div>
+  <div>
+    <label for="skill1">Choose Skill Proficiency 1:</label>
+    <select id="skill1" onchange="updateSkillOptions2()">
+      <option value="">--Select Skill--</option>
+      <!-- Skill options populated dynamically -->
+    </select>
+  </div>
+
+  <div>
+    <label for="skill2">Choose Skill Proficiency 2:</label>
+    <select id="skill2" onchange="updateSkillOptions3()">
+      <option value="">--Select Skill--</option>
+      <!-- Skill options populated dynamically -->
+    </select>
+  </div>
+  
+  <div id="skillBox3" style="display:none;">
+    <label for="skill3">Choose Skill Proficiency 3:</label>
+    <select id="skill3" onchange="updateSkillOptions4()">
+      <option value="">--Select Skill--</option>
+      <!-- Skill options populated dynamically -->
+    </select>
+  </div>
+
+  <div id="skillBox4" style="display:none;">
+    <label for="skill4">Choose Skill Proficiency 4:</label>
+    <select id="skill4">
+      <option value="">--Select Skill--</option>
+      <!-- Skill options populated dynamically -->
+    </select>
+  </div>
+	
+	
+	
 	
 	<button style="margin:auto" class="class-button" onclick="fillForm()">Show Character Sheet</button>
 

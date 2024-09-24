@@ -61,6 +61,13 @@ const { PDFDocument } = PDFLib
 	  const wisChk = form.getCheckBox("Check Box17")
 	  const chaChk = form.getCheckBox("Check Box6")
 	  
+	  const strSaveField = form.getTextField("STR SAVE")
+	  const dexSaveField = form.getTextField("DEX SAVE")
+	  const conSaveField = form.getTextField("CON SAVE")
+	  const intSaveField = form.getTextField("INT SAVE")
+	  const wisSaveField = form.getTextField("Text Field71")
+	  const chaSaveField = form.getTextField("CHA SAVE")
+	  
 	  const athleticsChk = form.getCheckBox("Check Box19")
 	  const acrobaticsChk = form.getCheckBox("Check Box8")
 	  const slightOfHandChk = form.getCheckBox("Check Box9")
@@ -79,6 +86,25 @@ const { PDFDocument } = PDFLib
 	  const intimidationChk = form.getCheckBox("Check Box4")
 	  const performanceChk = form.getCheckBox("Check Box3")
 	  const persuasionChk = form.getCheckBox("Check Box2")
+	  
+	  const athleticsField = form.getTextField("ATHLETICS")
+	  const acrobaticsField = form.getTextField("ACROBATICS")
+	  const slightOfHandField = form.getTextField("SLEIGHT OF HAND")
+	  const stealthField = form.getTextField("STEALTH")
+	  const arcanaField = form.getTextField("ARCANA")
+	  const historyField = form.getTextField("HISTORY")
+	  const investigationField = form.getTextField("INVESTIGATION")
+	  const natureField = form.getTextField("NATURE")
+	  const religionField = form.getTextField("RELIGION")
+	  const animalHandlingField = form.getTextField("ANIMAL HANDLING")
+	  const insightField = form.getTextField("INSIGHT")
+	  const medicineField = form.getTextField("MEDICINE")
+	  const perceptionField = form.getTextField("PERCEPTION")
+	  const survivalField = form.getTextField("SURVIVAL")
+	  const deceptionField = form.getTextField("DECEPTION")
+	  const intimidationField = form.getTextField("INTIMIDATE")
+	  const performanceField = form.getTextField("PERFORMANCE")
+	  const persuasionField = form.getTextField("PERSUASION")
 	  
 	  
 	  const lightArmor = form.getCheckBox("Check Box33")
@@ -132,6 +158,9 @@ const { PDFDocument } = PDFLib
 	  
 	  const weaponProficienciesField = form.getTextField("WEAPON PROF")
 	  const toolProficienciesField = form.getTextField("TOOL PROF")
+	  
+	  const featsField = form.getTextField("FEATS")
+	  const equipmentField = form.getTextField("EQUIPMENT")
 	  
 	  let goldPieces = 0;
 
@@ -700,6 +729,9 @@ const { PDFDocument } = PDFLib
 	  
 	  let ac = 10;
 	  
+	  let classEquipment = ""
+	  let classToolProficiencies = ""
+	  let hasClassToolProficiencies = false
 	  switch(selectedClass) {
 			case "Barbarian":
 				goldPieces = 15;
@@ -713,10 +745,11 @@ const { PDFDocument } = PDFLib
 				weapon2Damage.setText("1d6 + " + strMod + " S")
 				weapon2Notes.setText("Light, Thrown (Range 20/60)")
 				ac = ac + parseInt(dexMod) + parseInt(conMod)
+				classEquipment = "Greataxe, 4 Handaxes, Explorer's Pack"
 				break;
 			case "Bard":
 				goldPieces = 19;
-				weaponProficienciesField.setText("Simple weapons\n")
+				weaponProficienciesField.setText("Simple weapons\n\n")
 				if (finesse) {
 					weapon1Name.setText("Dagger")
 					weapon1Bonus.setText("+" + dexterityToHit)
@@ -729,10 +762,13 @@ const { PDFDocument } = PDFLib
 					weapon1Notes.setText("Finesse, Light, Thrown (Range 20/60")
 				}
 				ac = ac + parseInt(dexMod) + 1
+				classEquipment = "Leather Armor, 2 Daggers, Musical Instrument, Entertainer's Pack"
+				hasClassToolProficiencies = true
+				classToolProficiencies = "3 Musical Instruments"
 				break;
 			case "Cleric":
 				goldPieces = 7;
-				weaponProficienciesField.setText("Simple weapons\n")
+				weaponProficienciesField.setText("Simple weapons\n\n")
 				hasShield = true
 				weapon1Name.setText("Mace")
 				weapon1Bonus.setText("+" + strengthToHit)
@@ -743,10 +779,11 @@ const { PDFDocument } = PDFLib
 					clerDexMod = 2
 				}
 				ac = ac + clerDexMod + 3 + 2
+				classEquipment = "Chain Shirt, Shield, Mace, Holy Symbol, Priest's Pack"
 				break;
 			case "Druid":
 				goldPieces = 9;
-				weaponProficienciesField.setText("Simple weapons\n")
+				weaponProficienciesField.setText("Simple weapons\n\n")
 				hasShield = true
 				weapon1Name.setText("Quarterstaff")
 				weapon1Bonus.setText("+" + strengthToHit)
@@ -757,6 +794,9 @@ const { PDFDocument } = PDFLib
 				weapon2Damage.setText("1d4 + " + strMod + " S")
 				weapon2Notes.setText("Light")
 				ac = ac + parseInt(dexMod) + 1
+				classEquipment = "Leather Armor, Shield, Sickle, Druidic Focus (Quarterstaff), Explorer's Pack, Herbalism Kit"
+				hasClassToolProficiencies = true
+				classToolProficiencies = "Herbalism Kit"
 				break;
 			case "Fighter":
 				weaponProficienciesField.setText("Simple and Martial weapons\n")
@@ -774,6 +814,7 @@ const { PDFDocument } = PDFLib
 					weapon3Bonus.setText("+" + strengthToHit)
 					weapon3Damage.setText("1d6 + " + strMod + " P")
 					weapon3Notes.setText("Thrown (Range 30/120)")
+					classEquipment = "Chain Mail, Greatsword, Flail, 8 Javelins, Dungeoneer's Pack"
 					ac = 16
 				} else {
 					goldPieces = 11;
@@ -785,10 +826,11 @@ const { PDFDocument } = PDFLib
 					weapon2Bonus.setText("+" + dexterityToHit)
 					weapon2Damage.setText("1d6 + " + dexMod + " P")
 					weapon2Notes.setText("Finesse, Light")
-					weapon3Name.setText("Scimtar")
+					weapon3Name.setText("Scimitar")
 					weapon3Bonus.setText("+" + dexterityToHit)
 					weapon3Damage.setText("1d6 + " + dexMod + " S")
 					weapon3Notes.setText("Finesse, Light")
+					classEquipment = "Studded Leather Armor, Scimitar, Shortsword, Longbow, 20 Arrows, Quiver, Dungeoneer's Pack"
 					ac = ac + parseInt(dexMod) + 2
 				}
 				break;
@@ -823,6 +865,7 @@ const { PDFDocument } = PDFLib
 					weapon3Notes.setText("Finesse, Light, Thrown (Range 20/60)")
 				}
 				ac = ac + parseInt(dexMod) + parseInt(wisMod)
+				classEquipment = "Spear, 5 Daggers, Explorer's Pack"
 				break;
 			case "Paladin":
 				goldPieces = 9;
@@ -837,6 +880,7 @@ const { PDFDocument } = PDFLib
 				weapon2Damage.setText("1d6 + " + strMod + " P")
 				weapon2Notes.setText("Thrown (Range 30/120)")
 				ac = 16 + 2
+				classEquipment = "Chain Mail, Shield, Longsword, 6 Javelins, Holy Symbol, Priest's Pack"
 				break;
 			case "Ranger":
 				goldPieces = 7;
@@ -850,7 +894,7 @@ const { PDFDocument } = PDFLib
 					weapon2Bonus.setText("+" + dexterityToHit)
 					weapon2Damage.setText("1d6 + " + dexMod + " P")
 					weapon2Notes.setText("Finesse, Light")
-					weapon3Name.setText("Scimtar")
+					weapon3Name.setText("Scimitar")
 					weapon3Bonus.setText("+" + dexterityToHit)
 					weapon3Damage.setText("1d6 + " + dexMod + " S")
 					weapon3Notes.setText("Finesse, Light")
@@ -863,12 +907,13 @@ const { PDFDocument } = PDFLib
 					weapon2Bonus.setText("+" + strengthToHit)
 					weapon2Damage.setText("1d6 + " + strMod + " P")
 					weapon2Notes.setText("Finesse, Light")
-					weapon3Name.setText("Scimtar")
+					weapon3Name.setText("Scimitar")
 					weapon3Bonus.setText("+" + strengthToHit)
 					weapon3Damage.setText("1d6 + " + strMod + " S")
 					weapon3Notes.setText("Finesse, Light")
 				}
 				ac = ac + parseInt(dexMod) + 2
+				classEquipment = "Studded Leather Armor, Scimitar, Shortsword, Longbow, 20 Arrows, Quiver, Druidic Focus (sprig of mistletoe), Explorer's Pack"
 				break;
 			case "Rogue":
 				goldPieces = 8;
@@ -901,10 +946,13 @@ const { PDFDocument } = PDFLib
 					weapon3Notes.setText("Finesse, Light, Thrown (Range 20/60")
 				}
 				ac = ac + parseInt(dexMod) + 1
+				classEquipment = "Leather Armor, 2 Daggers, Shortsword, Shortbow, 20 Arrows, Quiver, Thieves' Tools, Burglar's Pack"
+				hasClassToolProficiencies = true
+				classToolProficiencies = "Thieves' Tools"
 				break;
 			case "Sorcerer":
 				goldPieces = 28;
-				weaponProficienciesField.setText("Simple weapons\n")
+				weaponProficienciesField.setText("Simple weapons\n\n")
 				if (finesse) {
 					weapon1Name.setText("Spear")
 					weapon1Bonus.setText("+" + strengthToHit)
@@ -925,10 +973,11 @@ const { PDFDocument } = PDFLib
 					weapon2Notes.setText("Finesse, Light, Thrown (Range 20/60")
 				}
 				ac = ac + parseInt(dexMod)
+				classEquipment = "Spear, 2 Daggers, Arcane Focus (crystal), Dungeoneer's Pack"
 				break;
 			case "Warlock":
 				goldPieces = 15;
-				weaponProficienciesField.setText("Simple weapons\n")
+				weaponProficienciesField.setText("Simple weapons\n\n")
 				if (finesse) {
 					weapon1Name.setText("Sickle")
 					weapon1Bonus.setText("+" + strengthToHit)
@@ -949,10 +998,11 @@ const { PDFDocument } = PDFLib
 					weapon2Notes.setText("Finesse, Light, Thrown (Range 20/60")
 				}
 				ac = ac + parseInt(dexMod) + 1
+				classEquipment = "Leather Armor, Sickle, 2 Daggers, Arcane Focus (orb), Book (occult lore), Scholar's Pack"
 				break;
 			case "Wizard":
 				goldPieces = 5;
-				weaponProficienciesField.setText("Simple weapons\n")
+				weaponProficienciesField.setText("Simple weapons\n\n")
 				if (finesse) {
 					weapon1Name.setText("Quarterstaff")
 					weapon1Bonus.setText("+" + strengthToHit)
@@ -973,6 +1023,7 @@ const { PDFDocument } = PDFLib
 					weapon2Notes.setText("Finesse, Light, Thrown (Range 20/60")
 				}
 				ac = ac + parseInt(dexMod)
+				classEquipment = "2 Daggers, Arcane Focus (Quarterstaff), Robe, Spellbook, Scholar's Pack"
 				break;
 	  }
 	  acField.setText(ac.toString())
@@ -980,105 +1031,151 @@ const { PDFDocument } = PDFLib
 	  if (hasShield) {
 		  hasShieldChk.check()
 	  }
-	  
+	  let backgroundEquipment = ""
 	  switch(background){
 			case "Acolyte":
 				insightChk.check();
 				religionChk.check();
 				goldPieces = goldPieces + 8;
 				toolProficienciesField.setText("Calligrapher's Supplies\n")
+				featsField.setText("Magic Initiate (Cleric):\n - You learn two cantrips of your choice from the Cleric spell list.\n - Choose a level 1 spell from the Cleric spell list. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have.\n - Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the Cleric spell list.\n - You can take this feat more than once, but you must choose a different spell list each time.")
+				backgroundEquipment = "Calligrapher's Supplies, Book (prayers), Holy Symbol, Parchment (10 sheets), Robe"
 				break;
 			case "Artisan":
 				investigationChk.check();
 				persuasionChk.check();
 				goldPieces = goldPieces + 32;
 				toolProficienciesField.setText("Artisan's Tools\n")
+				featsField.setText("Crafter:\n - You gain proficiency with three different Artisan's Tools of your choice from the Fast Crafting table.\n - Whenever you buy a nonmagical item, you receive a 20 percent discount on it.\n - When you finish a Long Rest, you can craft one piece of gear from the Fast Crafting table, provided you have the Artisan's Tools associated with that item and have proficiency with those tools. The item lasts until you finish another Long Rest, at which point the item falls apart.")
+				backgroundEquipment = "Artisan's Tools, 2 Pouches, Traveler's Clothes"
 				break;
 			case "Charlatan":
 				deceptionChk.check();
 				slightOfHandChk.check();
 				goldPieces = goldPieces + 15;
 				toolProficienciesField.setText("Forgery Kit\n")
+				featsField.setText("Skilled:\n - You gain proficiency in any combination of three skills or tools of your choice.\n - You can take this feat more than once.\n\n\n\n\n")
+				backgroundEquipment = "Forgery Kit, Costume, Fine Clothes"
 				break;
 			case "Criminal":
 				slightOfHandChk.check();
 				stealthChk.check();
 				goldPieces = goldPieces + 16;
 				toolProficienciesField.setText("Thieves' Tools\n")
+				featsField.setText("Alert:\n - When you roll Initiative, you can add your Proficiency Bonus to the roll.\n - Immediately after you roll Initiative, you can swap your Initiative with the Initiative of one  willing ally in the same combat. You can't make this swap if you or the ally has the Incapacitated condition.")
+				initiativeField.setText((parseInt(dexMod) + proficiencyBonus).toString())
+				backgroundEquipment = "2 Daggers, Thieves' Tools, Crowbar, 2 Pouches, Traveler's Clothes"
 				break;
 			case "Entertainer":
 				acrobaticsChk.check();
 				performanceChk.check();
 				goldPieces = goldPieces + 11;
 				toolProficienciesField.setText("Musical Instrument\n")
+				featsField.setText("Musician:\n - You gain proficiency with three Musical Instruments of your choice.\n - After you finish a Short or Long Rest, you can play a song on a Musical Instrument with which you have proficiency and give Heroic Inspiration to allies who hear this song. The number of allies you can affect in this way equals your Proficiency Bonus.")
+				backgroundEquipment = "Musical Instrument, 2 Costumes, Mirror, Perfume, Traveler's Clothes"
 				break;
 			case "Farmer":
 				animalHandlingChk.check();
 				natureChk.check();
 				goldPieces = goldPieces + 30;
 				toolProficienciesField.setText("Carpenter's Tools\n")
+				featsField.setText("Tough:\n - Your Hit Point maximum increases by an amount equal to twice your character level when you gain this feat. Whenever you gain a character level thereafter, your Hit Point maxumum increases by an additional 2 Hit Points.\n\n\n")
+				modifiedHP = modifiedHP + 2;
+				hpField.setText(modifiedHP.toString())
+				backgroundEquipment = "Sickle, Carpenter's Tools, Healer's Kit, Iron Pot, Shovel, Traveler's Clothes"
 				break;
 			case "Guard":
 				athleticsChk.check();
 				perceptionChk.check();
 				goldPieces = goldPieces + 12;
 				toolProficienciesField.setText("Gaming Set\n")
+				featsField.setText("Alert:\n - When you roll Initiative, you can add your Proficiency Bonus to the roll.\n - Immediately after you roll Initiative, you can swap your Initiative with the Initiative of one  willing ally in the same combat. You can't make this swap if you or the ally has the Incapacitated condition.")
+				initiativeField.setText(("+" + parseInt(dexMod) + proficiencyBonus).toString())
+				backgroundEquipment = "Spear, Light Crossbow, 20 Bolts, Gaming Set, Hooded Lantern, Manacles, Quiver, Traveler's Clothes"
 				break;
 			case "Guide":
 				stealthChk.check();
 				survivalChk.check();
 				goldPieces = goldPieces + 3;
 				toolProficienciesField.setText("Cartographer's Tools\n")
+				featsField.setText("Magic Initiate (Druid):\n - You learn two cantrips of your choice from the Druid spell list.\n - Choose a level 1 spell from the Druid spell list. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have.\n - Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the Druid spell list.\n - You can take this feat more than once, but you must choose a different spell list each time.")
+				backgroundEquipment = "Shortbow, 20 Arrows, Cartographer's Tools, Bedroll, Quiver, Tent, Traveler's Clothes"
 				break;
 			case "Hermit":
 				medicineChk.check();
 				religionChk.check();
 				goldPieces = goldPieces + 16;
 				toolProficienciesField.setText("Herbalism Kit\n")
+				featsField.setText("Healer:\n - If you have a Healer's Kit, you can expend one use of it and tend to a creature within 5 feet of yourself as a Utilize action. That creature can expend one of its Hit Point Dice, and you then roll that die. The creature regains a number of Hit Points equal to the roll plus your Proficiency Bonus.\n - Whenever you roll a die to determine the number of Hit Points you restore with a spell or with this feat's Battle Medic benefit, you can reroll the die if it rolls a 1, and you must use the new roll.")
+				backgroundEquipment = "Quarterstaff, Herbalism Mit, Bedroll, Book (philosophy), Lamp, Oil (3 flasks), Traveler's Clothes"
 				break;
 			case "Merchant":
 				animalHandlingChk.check();
 				persuasionChk.check();
 				goldPieces = goldPieces + 22;
 				toolProficienciesField.setText("Navigator's Tools\n")
+				featsField.setText("Lucky:\n - You have a number of Luck Points equal to your proficiency Bonus and can spend the points on the benefits below. You regain your expended Luck Points when you finish a Long Rest.\n - When you roll a d20 for a d20 test, you can spend 1 Luck Point to give yourself Advantage on the roll.\n - When a creature rolls a d20 for an attack roll against you, you can spend 1 Luck Point to impose Disadvantage on that roll.")
+				backgroundEquipment = "Navigator's Tools, 2 Pouches, Traveler's Clothes"
 				break;
 			case "Noble":
 				historyChk.check();
 				persuasionChk.check();
 				goldPieces = goldPieces + 29;
 				toolProficienciesField.setText("Gaming Set\n")
+				featsField.setText("Skilled:\n - You gain proficiency in any combination of three skills or tools of your choice.\n - You can take this feat more than once.\n\n\n\n\n")
+				backgroundEquipment = "Gaming Set, Fine Clothes, Perfume"
+				break;
 			case "Sage":
 				arcanaChk.check();
 				historyChk.check();
 				goldPieces = goldPieces + 8;
 				toolProficienciesField.setText("Calligrapher's Supplies\n")
+				featsField.setText("Magic Initiate (Wizard):\n - You learn two cantrips of your choice from the Wizard spell list.\n - Choose a level 1 spell from the Wizard spell list. You always have that spell prepared. You can cast it once without a spell slot, and you regain the ability to cast it in that way when you finish a Long Rest. You can also cast the spell using any spell slots you have.\n - Whenever you gain a new level, you can replace one of the spells you chose for this feat with a different spell of the same level from the Wizard spell list.\n - You can take this feat more than once, but you must choose a different spell list each time.")
+				backgroundEquipment = "Quarterstaff, Calligrapher's Supplies, Book (history), Parchment (8 sheets), Robe"
 				break;
 			case "Sailor":
 				acrobaticsChk.check();
 				perceptionChk.check();
 				goldPieces = goldPieces + 20;
 				toolProficienciesField.setText("Navigator's Tools\n")
+				featsField.setText("Tavern Brawler:\n - When you hit with your Unarmed Strike and deal damage, you can deal Bludgeoning damage equal to 1d4 plus your Strength modifier instead of the normal damage of an Unarmed Strike.\n - Whenever you roll a damage die for your Unarmed Strike, you can reroll the die if it rolls a 1, and you must use the new roll.\n - You have proficiency with improvised weapons.\n - When you hit a creature with an Unarmed Strike as part of the Attack action on your turn, you can deal damage to the target and also push it 5 feet away from you. You can use this benefit only once per turn.")
+				backgroundEquipment = "Dagger, Navigator's Tools, Rope, Traveler's Clothes"
 				break;
 			case "Scribe":
 				investigationChk.check();
 				perceptionChk.check();
 				goldPieces = goldPieces + 23;
 				toolProficienciesField.setText("Calligrapher's Supplies\n")
+				featsField.setText("Skilled:\n - You gain proficiency in any combination of three skills or tools of your choice.\n - You can take this feat more than once.\n\n\n\n\n")
+				backgroundEquipment = "Calligrapher's Supplies, Fine Clothes, Lamp Oil (3 flasks), Parchment (12 sheets)"
 				break;
 			case "Soldier":
 				athleticsChk.check();
 				intimidationChk.check();
 				goldPieces = goldPieces + 14;
 				toolProficienciesField.setText("Gaming Set\n")
+				featsField.setText("Savage Attacker:\n - You've trained to deal particularly damaging strikes. Once per turn when you hit a target with a weapon, you can roll the weapon's damage dice twice and use either roll agains the target.\n\n\n")
+				backgroundEquipment = "Spear, Shortbow, 20 Arrows, Gaming Set, Healer's Kit, Quiver, Traveler's Clothes"
 				break;
 			case "Wayfarer":
 				insightChk.check();
 				stealthChk.check();
 				goldPieces = goldPieces + 16;
 				toolProficienciesField.setText("Thieves' Tools\n")
+				featsField.setText("Lucky:\n - You have a number of Luck Points equal to your proficiency Bonus and can spend the points on the benefits below. You regain your expended Luck Points when you finish a Long Rest.\n - When you roll a d20 for a d20 test, you can spend 1 Luck Point to give yourself Advantage on the roll.\n - When a creature rolls a d20 for an attack roll against you, you can spend 1 Luck Point to impose Disadvantage on that roll.")
+				backgroundEquipment = "2 Daggers, Thieves' Tools, Gaming Set, Bedroll, 2 Pouches, Traveler's Clothes"
 				break;
 	  }
 	  
+	  if (!((background === "Wayfarer" || background === "Criminal") && (selectedClass === "Rogue"))){
+		  if (!((background === "Hermit") && (selectedClass === "Druid"))){
+			  if (hasClassToolProficiencies) {
+				  toolProficienciesField.setText(toolProficienciesField.getText() + classToolProficiencies)
+			  }
+		  }
+	  }
+	  
+	  equipmentField.setText(classEquipment + ", " + backgroundEquipment)
 	  
 	  
 	  CPField.setText("0")
@@ -1086,52 +1183,330 @@ const { PDFDocument } = PDFLib
 	  EPField.setText("0")
 	  GPField.setText(goldPieces.toString())
 	  PPField.setText("0")
-
-
-      // Fill the character image field with our Mario image
-      //characterImageField.setImage(marioImage)
-
-      // Fill in the allies field
-      //alliesField.setText(
-        //[
-          //`Allies:`,
-          //`  • Princess Daisy`,
-          //`  • Princess Peach`,
-          //`  • Rosalina`,
-          //`  • Geno`,
-          //`  • Luigi`,
-          //`  • Donkey Kong`,
-          //`  • Yoshi`,
-          //`  • Diddy Kong`,
-          //``,
-          //`Organizations:`,
-          //`  • Italian Plumbers Association`,
-        //].join('\n'),
-      //)
-
-      // Fill in the faction name field
-      //factionField.setText(`Mario's Emblem`)
-
-      // Fill the faction image field with our emblem image
-      //factionImageField.setImage(emblemImage)
-
-      // Fill in the backstory field
-      //backstoryField.setText(
-        //`Mario is a fictional character in the Mario video game franchise, owned by Nintendo and created by Japanese video game designer Shigeru Miyamoto. Serving as the company's mascot and the eponymous protagonist of the series, Mario has appeared in over 200 video games since his creation. Depicted as a short, pudgy, Italian plumber who resides in the Mushroom Kingdom, his adventures generally center upon rescuing Princess Peach from the Koopa villain Bowser. His younger brother and sidekick is Luigi.`,
-      //)
-
-      // Fill in the traits field
-      //traitsField.setText(
-        //[
-          //`Mario can use three basic three power-ups:`,
-          //`  • the Super Mushroom, which causes Mario to grow larger`,
-          //`  • the Fire Flower, which allows Mario to throw fireballs`,
-          //`  • the Starman, which gives Mario temporary invincibility`,
-        //].join('\n'),
-      //)
-
-      // Fill in the treasure field
-      //treasureField.setText(['• Gold coins', '• Treasure chests'].join('\n'))
+	  
+	  let skill1 = document.getElementById("skill1").value;
+	  let skill2 = document.getElementById("skill2").value;
+	  let skill3 = document.getElementById("skill3").value;
+	  let skill4 = document.getElementById("skill4").value;
+	  const skills = [skill1, skill2, skill3, skill4];
+	  
+	  if (skills.includes("Acrobatics")) {
+		  acrobaticsChk.check()
+	  }
+	  if (skills.includes("Animal Handling")) {
+		  animalHandlingChk.check()
+	  }
+	  if (skills.includes("Arcana")) {
+		  arcanaChk.check()
+	  }
+	  if (skills.includes("Athletics")) {
+		  athleticsChk.check()
+	  }
+	  if (skills.includes("Deception")) {
+		  deceptionChk.check()
+	  }
+	  if (skills.includes("History")) {
+		  historyChk.check()
+	  }
+	  if (skills.includes("Insight")) {
+		  insightChk.check()
+	  }
+	  if (skills.includes("Intimidation")) {
+		  intimidationChk.check()
+	  }
+	  if (skills.includes("Investigation")) {
+		  investigationChk.check()
+	  }
+	  if (skills.includes("Medicine")) {
+		  medicineChk.check()
+	  }
+	  if (skills.includes("Nature")) {
+		  natureChk.check()
+	  }
+	  if (skills.includes("Perception")) {
+		  perceptionChk.check()
+	  }
+	  if (skills.includes("Performance")) {
+		  performanceChk.check()
+	  }
+	  if (skills.includes("Persuasion")) {
+		  persuasionChk.check()
+	  }
+	  if (skills.includes("Religion")) {
+		  religionChk.check()
+	  }
+	  if (skills.includes("Sleight of Hand")) {
+		  slightOfHandChk.check()
+	  }
+	  if (skills.includes("Stealth")) {
+		  stealthChk.check()
+	  }
+	  if (skills.includes("Survival")) {
+		  survivalChk.check()
+	  }
+	  
+	  let str = parseInt(strMod)
+	  if (strChk.isChecked()) {
+		  str = str + proficiencyBonus
+		  strSaveField.setText("+" + str.toString())
+	  } else {
+		  if (str < 0){
+			  strSaveField.setText(str.toString())
+		  } else {
+			  strSaveField.setText("+" + str.toString())
+		  }
+	  }
+	  
+	  let dex = parseInt(dexMod)
+	  if (dexChk.isChecked()) {
+		  dex = dex + proficiencyBonus
+		  dexSaveField.setText("+" + dex.toString())
+	  } else {
+		  if (dex < 0){
+			  dexSaveField.setText(dex.toString())
+		  } else {
+			  dexSaveField.setText("+" + dex.toString())
+		  }
+	  }
+	  
+	  let con = parseInt(conMod)
+	  if (conChk.isChecked()) {
+		  con = con + proficiencyBonus
+		  conSaveField.setText("+" + con.toString())
+	  } else {
+		  if (con < 0){
+			  conSaveField.setText(con.toString())
+		  } else {
+			  conSaveField.setText("+" + con.toString())
+		  }
+	  }
+	  
+	  let intel = parseInt(intMod)
+	  if (intChk.isChecked()) {
+		  intel = intel + proficiencyBonus
+		  intSaveField.setText("+" + intel.toString())
+	  } else {
+		  if (intel < 0){
+			  intSaveField.setText(intel.toString())
+		  } else {
+			  intSaveField.setText("+" + intel.toString())
+		  }
+	  }
+	  
+	  let wis = parseInt(wisMod)
+	  if (wisChk.isChecked()) {
+		  wis = wis + proficiencyBonus
+		  wisSaveField.setText("+" + wis.toString())
+	  } else {
+		  if (wis < 0){
+			  wisSaveField.setText(wis.toString())
+		  } else {
+			  wisSaveField.setText("+" + wis.toString())
+		  }
+	  }
+	  
+	  let cha = parseInt(chaMod)
+	  if (chaChk.isChecked()) {
+		  cha = cha + proficiencyBonus
+		  chaSaveField.setText("+" + cha.toString())
+	  } else {
+		  if (cha < 0){
+			  chaSaveField.setText(cha.toString())
+		  } else {
+			  chaSaveField.setText("+" + cha.toString())
+		  }
+	  }
+	  
+	  str = parseInt(strMod)
+	  dex = parseInt(dexMod)
+	  intel = parseInt(intMod)
+	  wis = parseInt(wisMod)
+	  cha = parseInt(chaMod)
+	  
+	  if (athleticsChk.isChecked()) {
+		  athleticsField.setText("+" + (str + proficiencyBonus).toString())
+	  } else {
+		  if (str < 0) {
+			  athleticsField.setText(str.toString())
+		  } else {
+			  athleticsField.setText("+" + str.toString())
+		  }
+	  }
+	  
+	  if (acrobaticsChk.isChecked()) {
+		  acrobaticsField.setText("+" + (dex + proficiencyBonus).toString())
+	  } else {
+		  if (dex < 0) {
+			  acrobaticsField.setText(dex.toString())
+		  } else {
+			  acrobaticsField.setText("+" + dex.toString())
+		  }
+	  }
+	  
+	  if (slightOfHandChk.isChecked()) {
+		  slightOfHandField.setText("+" + (dex + proficiencyBonus).toString())
+	  } else {
+		  if (dex < 0) {
+			  slightOfHandField.setText(dex.toString())
+		  } else {
+			  slightOfHandField.setText("+" + dex.toString())
+		  }
+	  }
+	  
+	  if (stealthChk.isChecked()) {
+		  stealthField.setText("+" + (dex + proficiencyBonus).toString())
+	  } else {
+		  if (dex < 0) {
+			  stealthField.setText(dex.toString())
+		  } else {
+			  stealthField.setText("+" + dex.toString())
+		  }
+	  }
+	  
+	  if (arcanaChk.isChecked()) {
+		  arcanaField.setText("+" + (intel + proficiencyBonus).toString())
+	  } else {
+		  if (intel < 0) {
+			  arcanaField.setText(intel.toString())
+		  } else {
+			  arcanaField.setText("+" + intel.toString())
+		  }
+	  }
+	  
+	  if (historyChk.isChecked()) {
+		  historyField.setText("+" + (intel + proficiencyBonus).toString())
+	  } else {
+		  if (intel < 0) {
+			  historyField.setText(intel.toString())
+		  } else {
+			  historyField.setText("+" + intel.toString())
+		  }
+	  }
+	  
+	  if (investigationChk.isChecked()) {
+		  investigationField.setText("+" + (intel + proficiencyBonus).toString())
+	  } else {
+		  if (intel < 0) {
+			  investigationField.setText(intel.toString())
+		  } else {
+			  investigationField.setText("+" + intel.toString())
+		  }
+	  }
+	  
+	  if (natureChk.isChecked()) {
+		  natureField.setText("+" + (intel + proficiencyBonus).toString())
+	  } else {
+		  if (intel < 0) {
+			  natureField.setText(intel.toString())
+		  } else {
+			  natureField.setText("+" + intel.toString())
+		  }
+	  }
+	  
+	  if (religionChk.isChecked()) {
+		  religionField.setText("+" + (intel + proficiencyBonus).toString())
+	  } else {
+		  if (intel < 0) {
+			  religionField.setText(intel.toString())
+		  } else {
+			  religionField.setText("+" + intel.toString())
+		  }
+	  }
+	  
+	  if (animalHandlingChk.isChecked()) {
+		  animalHandlingField.setText("+" + (wis + proficiencyBonus).toString())
+	  } else {
+		  if (wis < 0) {
+			  animalHandlingField.setText(wis.toString())
+		  } else {
+			  animalHandlingField.setText("+" + wis.toString())
+		  }
+	  }
+	  
+	  if (insightChk.isChecked()) {
+		  insightField.setText("+" + (wis + proficiencyBonus).toString())
+	  } else {
+		  if (wis < 0) {
+			  insightField.setText(wis.toString())
+		  } else {
+			  insightField.setText("+" + wis.toString())
+		  }
+	  }
+	  
+	  if (medicineChk.isChecked()) {
+		  medicineField.setText("+" + (wis + proficiencyBonus).toString())
+	  } else {
+		  if (wis < 0) {
+			  medicineField.setText(wis.toString())
+		  } else {
+			  medicineField.setText("+" + wis.toString())
+		  }
+	  }
+	  
+	  if (perceptionChk.isChecked()) {
+		  perceptionField.setText("+" + (wis + proficiencyBonus).toString())
+	  } else {
+		  if (wis < 0) {
+			  perceptionField.setText(wis.toString())
+		  } else {
+			  perceptionField.setText("+" + wis.toString())
+		  }
+	  }
+	  
+	  if (survivalChk.isChecked()) {
+		  survivalField.setText("+" + (wis + proficiencyBonus).toString())
+	  } else {
+		  if (wis < 0) {
+			  survivalField.setText(wis.toString())
+		  } else {
+			  survivalField.setText("+" + wis.toString())
+		  }
+	  }
+	  
+	  if (deceptionChk.isChecked()) {
+		  deceptionField.setText("+" + (cha + proficiencyBonus).toString())
+	  } else {
+		  if (cha < 0) {
+			  deceptionField.setText(cha.toString())
+		  } else {
+			  deceptionField.setText("+" + cha.toString())
+		  }
+	  }
+	  
+	  if (intimidationChk.isChecked()) {
+		  intimidationField.setText("+" + (cha + proficiencyBonus).toString())
+	  } else {
+		  if (cha < 0) {
+			  intimidationField.setText(cha.toString())
+		  } else {
+			  intimidationField.setText("+" + cha.toString())
+		  }
+	  }
+	  
+	  if (performanceChk.isChecked()) {
+		  performanceField.setText("+" + (cha + proficiencyBonus).toString())
+	  } else {
+		  if (cha < 0) {
+			  performanceField.setText(cha.toString())
+		  } else {
+			  performanceField.setText("+" + cha.toString())
+		  }
+	  }
+	  
+	  if (persuasionChk.isChecked()) {
+		  persuasionField.setText("+" + (cha + proficiencyBonus).toString())
+	  } else {
+		  if (cha < 0) {
+			  persuasionField.setText(cha.toString())
+		  } else {
+			  persuasionField.setText("+" + cha.toString())
+		  }
+	  }
+	  
+	  
+	  
+	  
+	  
 
       const pdfBytes = await pdfDoc.save()
 	  const blob = new Blob([pdfBytes], { type: "application/pdf" });
