@@ -611,7 +611,6 @@ function updateSkillOptions() {
 
       // Function to populate dropdowns
       function populateDropdown(dropdown, selectedSkill) {
-		  console.log("populating")
         dropdown.innerHTML = `<option value="">--Select Skill--</option>`;
         filteredSkills.forEach(skill => {
           const option = document.createElement('option');
@@ -656,7 +655,6 @@ function updateSkillOptions() {
 
       // Function to populate dropdowns
       function populateDropdown(dropdown, selectedSkill) {
-		  console.log("populating")
         dropdown.innerHTML = `<option value="">--Select Skill--</option>`;
         filteredSkills.forEach(skill => {
           const option = document.createElement('option');
