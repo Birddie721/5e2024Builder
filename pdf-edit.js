@@ -130,6 +130,9 @@ const { PDFDocument } = PDFLib
 	  const GPField = form.getTextField("GP")
 	  const PPField = form.getTextField("PP")
 	  
+	  const weaponProficienciesField = form.getTextField("WEAPON PROF")
+	  const toolProficienciesField = form.getTextField("TOOL PROF")
+	  
 	  let goldPieces = 0;
 
       // Fill in the basic info fields
@@ -700,6 +703,7 @@ const { PDFDocument } = PDFLib
 	  switch(selectedClass) {
 			case "Barbarian":
 				goldPieces = 15;
+				weaponProficienciesField.setText("Simple and Martial weapons\n")
 				weapon1Name.setText("Greataxe")
 				weapon1Bonus.setText("+" + strengthToHit)
 				weapon1Damage.setText("1d12 + " + strMod + " S")
@@ -712,6 +716,7 @@ const { PDFDocument } = PDFLib
 				break;
 			case "Bard":
 				goldPieces = 19;
+				weaponProficienciesField.setText("Simple weapons\n")
 				if (finesse) {
 					weapon1Name.setText("Dagger")
 					weapon1Bonus.setText("+" + dexterityToHit)
@@ -727,6 +732,7 @@ const { PDFDocument } = PDFLib
 				break;
 			case "Cleric":
 				goldPieces = 7;
+				weaponProficienciesField.setText("Simple weapons\n")
 				hasShield = true
 				weapon1Name.setText("Mace")
 				weapon1Bonus.setText("+" + strengthToHit)
@@ -740,6 +746,7 @@ const { PDFDocument } = PDFLib
 				break;
 			case "Druid":
 				goldPieces = 9;
+				weaponProficienciesField.setText("Simple weapons\n")
 				hasShield = true
 				weapon1Name.setText("Quarterstaff")
 				weapon1Bonus.setText("+" + strengthToHit)
@@ -752,6 +759,7 @@ const { PDFDocument } = PDFLib
 				ac = ac + parseInt(dexMod) + 1
 				break;
 			case "Fighter":
+				weaponProficienciesField.setText("Simple and Martial weapons\n")
 				if (!finesse) {
 					goldPieces = 4;
 					weapon1Name.setText("Greatsword")
@@ -786,6 +794,7 @@ const { PDFDocument } = PDFLib
 				break;
 			case "Monk":
 				goldPieces = 11;
+				weaponProficienciesField.setText("Simple weapons and Martial weapons that have the Light property")
 				if (finesse) {
 					weapon1Name.setText("Unarmed Strike")
 					weapon1Bonus.setText("+" + dexterityToHit)
@@ -817,6 +826,7 @@ const { PDFDocument } = PDFLib
 				break;
 			case "Paladin":
 				goldPieces = 9;
+				weaponProficienciesField.setText("Simple and Martial weapons\n")
 				hasShield = true
 				weapon1Name.setText("Longsword")
 				weapon1Bonus.setText("+" + strengthToHit)
@@ -830,6 +840,7 @@ const { PDFDocument } = PDFLib
 				break;
 			case "Ranger":
 				goldPieces = 7;
+				weaponProficienciesField.setText("Simple and Martial weapons\n")
 				if (finesse) {
 					weapon1Name.setText("Longbow")
 					weapon1Bonus.setText("+" + dexterityToHit)
@@ -861,6 +872,7 @@ const { PDFDocument } = PDFLib
 				break;
 			case "Rogue":
 				goldPieces = 8;
+				weaponProficienciesField.setText("Simple weapons and Martial weapons that have the Finesse or Light property")
 				if (finesse) {
 					weapon1Name.setText("Shortsword")
 					weapon1Bonus.setText("+" + dexterityToHit)
@@ -892,6 +904,7 @@ const { PDFDocument } = PDFLib
 				break;
 			case "Sorcerer":
 				goldPieces = 28;
+				weaponProficienciesField.setText("Simple weapons\n")
 				if (finesse) {
 					weapon1Name.setText("Spear")
 					weapon1Bonus.setText("+" + strengthToHit)
@@ -915,6 +928,7 @@ const { PDFDocument } = PDFLib
 				break;
 			case "Warlock":
 				goldPieces = 15;
+				weaponProficienciesField.setText("Simple weapons\n")
 				if (finesse) {
 					weapon1Name.setText("Sickle")
 					weapon1Bonus.setText("+" + strengthToHit)
@@ -938,6 +952,7 @@ const { PDFDocument } = PDFLib
 				break;
 			case "Wizard":
 				goldPieces = 5;
+				weaponProficienciesField.setText("Simple weapons\n")
 				if (finesse) {
 					weapon1Name.setText("Quarterstaff")
 					weapon1Bonus.setText("+" + strengthToHit)
@@ -971,80 +986,96 @@ const { PDFDocument } = PDFLib
 				insightChk.check();
 				religionChk.check();
 				goldPieces = goldPieces + 8;
+				toolProficienciesField.setText("Calligrapher's Supplies\n")
 				break;
 			case "Artisan":
 				investigationChk.check();
 				persuasionChk.check();
 				goldPieces = goldPieces + 32;
+				toolProficienciesField.setText("Artisan's Tools\n")
 				break;
 			case "Charlatan":
 				deceptionChk.check();
 				slightOfHandChk.check();
 				goldPieces = goldPieces + 15;
+				toolProficienciesField.setText("Forgery Kit\n")
 				break;
 			case "Criminal":
 				slightOfHandChk.check();
 				stealthChk.check();
 				goldPieces = goldPieces + 16;
+				toolProficienciesField.setText("Thieves' Tools\n")
 				break;
 			case "Entertainer":
 				acrobaticsChk.check();
 				performanceChk.check();
 				goldPieces = goldPieces + 11;
+				toolProficienciesField.setText("Musical Instrument\n")
 				break;
 			case "Farmer":
 				animalHandlingChk.check();
 				natureChk.check();
 				goldPieces = goldPieces + 30;
+				toolProficienciesField.setText("Carpenter's Tools\n")
 				break;
 			case "Guard":
 				athleticsChk.check();
 				perceptionChk.check();
 				goldPieces = goldPieces + 12;
+				toolProficienciesField.setText("Gaming Set\n")
 				break;
 			case "Guide":
 				stealthChk.check();
 				survivalChk.check();
 				goldPieces = goldPieces + 3;
+				toolProficienciesField.setText("Cartographer's Tools\n")
 				break;
 			case "Hermit":
 				medicineChk.check();
 				religionChk.check();
 				goldPieces = goldPieces + 16;
+				toolProficienciesField.setText("Herbalism Kit\n")
 				break;
 			case "Merchant":
 				animalHandlingChk.check();
 				persuasionChk.check();
 				goldPieces = goldPieces + 22;
+				toolProficienciesField.setText("Navigator's Tools\n")
 				break;
 			case "Noble":
 				historyChk.check();
 				persuasionChk.check();
 				goldPieces = goldPieces + 29;
+				toolProficienciesField.setText("Gaming Set\n")
 			case "Sage":
 				arcanaChk.check();
 				historyChk.check();
 				goldPieces = goldPieces + 8;
+				toolProficienciesField.setText("Calligrapher's Supplies\n")
 				break;
 			case "Sailor":
 				acrobaticsChk.check();
 				perceptionChk.check();
 				goldPieces = goldPieces + 20;
+				toolProficienciesField.setText("Navigator's Tools\n")
 				break;
 			case "Scribe":
 				investigationChk.check();
 				perceptionChk.check();
 				goldPieces = goldPieces + 23;
+				toolProficienciesField.setText("Calligrapher's Supplies\n")
 				break;
 			case "Soldier":
 				athleticsChk.check();
 				intimidationChk.check();
 				goldPieces = goldPieces + 14;
+				toolProficienciesField.setText("Gaming Set\n")
 				break;
 			case "Wayfarer":
 				insightChk.check();
 				stealthChk.check();
 				goldPieces = goldPieces + 16;
+				toolProficienciesField.setText("Thieves' Tools\n")
 				break;
 	  }
 	  
