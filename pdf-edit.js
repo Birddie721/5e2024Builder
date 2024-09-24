@@ -124,10 +124,18 @@ const { PDFDocument } = PDFLib
 	  const spellSaveDCField = form.getTextField("SPELL SAVE DC")
 	  const spellAttackBonusField = form.getTextField("SPELL ATTACK BONUS")
 	  
+	  const CPField = form.getTextField("CP")
+	  const SPField = form.getTextField("SP")
+	  const EPField = form.getTextField("EP")
+	  const GPField = form.getTextField("GP")
+	  const PPField = form.getTextField("PP")
+	  
+	  let goldPieces = 0;
 
       // Fill in the basic info fields
 	  nameField.setText(document.getElementById("playerName").value)
-	  backgroundField.setText(document.getElementById("roleSelect").value)
+	  let background = document.getElementById("roleSelect").value;
+	  backgroundField.setText(background);
 	  let selectedClass = document.getElementById("class").value
 	  classField.setText(selectedClass)
 	  
@@ -235,8 +243,13 @@ const { PDFDocument } = PDFLib
 	  } else {
 		initiativeField.setText("+" + dexMod)
 	  }
+	  let modifiedHP = 0
 	  let hp = classHP[selectedClass]
-	  let modifiedHP = parseInt(hp) + parseInt(conMod)
+	  if (species === "Dwarf") {
+		modifiedHP = parseInt(hp) + parseInt(conMod) + 1
+	  } else {
+		modifiedHP = parseInt(hp) + parseInt(conMod)
+	  }
 	  hpField.setText(modifiedHP.toString())
 	  
 	  const strSave = ["Barbarian", "Fighter", "Monk", "Ranger"]
@@ -686,6 +699,7 @@ const { PDFDocument } = PDFLib
 	  
 	  switch(selectedClass) {
 			case "Barbarian":
+				goldPieces = 15;
 				weapon1Name.setText("Greataxe")
 				weapon1Bonus.setText("+" + strengthToHit)
 				weapon1Damage.setText("1d12 + " + strMod + " S")
@@ -697,6 +711,7 @@ const { PDFDocument } = PDFLib
 				ac = ac + parseInt(dexMod) + parseInt(conMod)
 				break;
 			case "Bard":
+				goldPieces = 19;
 				if (finesse) {
 					weapon1Name.setText("Dagger")
 					weapon1Bonus.setText("+" + dexterityToHit)
@@ -711,6 +726,7 @@ const { PDFDocument } = PDFLib
 				ac = ac + parseInt(dexMod) + 1
 				break;
 			case "Cleric":
+				goldPieces = 7;
 				hasShield = true
 				weapon1Name.setText("Mace")
 				weapon1Bonus.setText("+" + strengthToHit)
@@ -723,6 +739,7 @@ const { PDFDocument } = PDFLib
 				ac = ac + clerDexMod + 3 + 2
 				break;
 			case "Druid":
+				goldPieces = 9;
 				hasShield = true
 				weapon1Name.setText("Quarterstaff")
 				weapon1Bonus.setText("+" + strengthToHit)
@@ -736,6 +753,7 @@ const { PDFDocument } = PDFLib
 				break;
 			case "Fighter":
 				if (!finesse) {
+					goldPieces = 4;
 					weapon1Name.setText("Greatsword")
 					weapon1Bonus.setText("+" + strengthToHit)
 					weapon1Damage.setText("2d6 + " + strMod + " S")
@@ -750,6 +768,7 @@ const { PDFDocument } = PDFLib
 					weapon3Notes.setText("Thrown (Range 30/120)")
 					ac = 16
 				} else {
+					goldPieces = 11;
 					weapon1Name.setText("Longbow")
 					weapon1Bonus.setText("+" + dexterityToHit)
 					weapon1Damage.setText("1d8 + " + dexMod + " P")
@@ -766,6 +785,7 @@ const { PDFDocument } = PDFLib
 				}
 				break;
 			case "Monk":
+				goldPieces = 11;
 				if (finesse) {
 					weapon1Name.setText("Unarmed Strike")
 					weapon1Bonus.setText("+" + dexterityToHit)
@@ -796,6 +816,7 @@ const { PDFDocument } = PDFLib
 				ac = ac + parseInt(dexMod) + parseInt(wisMod)
 				break;
 			case "Paladin":
+				goldPieces = 9;
 				hasShield = true
 				weapon1Name.setText("Longsword")
 				weapon1Bonus.setText("+" + strengthToHit)
@@ -808,6 +829,7 @@ const { PDFDocument } = PDFLib
 				ac = 16 + 2
 				break;
 			case "Ranger":
+				goldPieces = 7;
 				if (finesse) {
 					weapon1Name.setText("Longbow")
 					weapon1Bonus.setText("+" + dexterityToHit)
@@ -838,6 +860,7 @@ const { PDFDocument } = PDFLib
 				ac = ac + parseInt(dexMod) + 2
 				break;
 			case "Rogue":
+				goldPieces = 8;
 				if (finesse) {
 					weapon1Name.setText("Shortsword")
 					weapon1Bonus.setText("+" + dexterityToHit)
@@ -868,6 +891,7 @@ const { PDFDocument } = PDFLib
 				ac = ac + parseInt(dexMod) + 1
 				break;
 			case "Sorcerer":
+				goldPieces = 28;
 				if (finesse) {
 					weapon1Name.setText("Spear")
 					weapon1Bonus.setText("+" + strengthToHit)
@@ -890,6 +914,7 @@ const { PDFDocument } = PDFLib
 				ac = ac + parseInt(dexMod)
 				break;
 			case "Warlock":
+				goldPieces = 15;
 				if (finesse) {
 					weapon1Name.setText("Sickle")
 					weapon1Bonus.setText("+" + strengthToHit)
@@ -912,6 +937,7 @@ const { PDFDocument } = PDFLib
 				ac = ac + parseInt(dexMod) + 1
 				break;
 			case "Wizard":
+				goldPieces = 5;
 				if (finesse) {
 					weapon1Name.setText("Quarterstaff")
 					weapon1Bonus.setText("+" + strengthToHit)
@@ -939,6 +965,96 @@ const { PDFDocument } = PDFLib
 	  if (hasShield) {
 		  hasShieldChk.check()
 	  }
+	  
+	  switch(background){
+			case "Acolyte":
+				insightChk.check();
+				religionChk.check();
+				goldPieces = goldPieces + 8;
+				break;
+			case "Artisan":
+				investigationChk.check();
+				persuasionChk.check();
+				goldPieces = goldPieces + 32;
+				break;
+			case "Charlatan":
+				deceptionChk.check();
+				slightOfHandChk.check();
+				goldPieces = goldPieces + 15;
+				break;
+			case "Criminal":
+				slightOfHandChk.check();
+				stealthChk.check();
+				goldPieces = goldPieces + 16;
+				break;
+			case "Entertainer":
+				acrobaticsChk.check();
+				performanceChk.check();
+				goldPieces = goldPieces + 11;
+				break;
+			case "Farmer":
+				animalHandlingChk.check();
+				natureChk.check();
+				goldPieces = goldPieces + 30;
+				break;
+			case "Guard":
+				athleticsChk.check();
+				perceptionChk.check();
+				goldPieces = goldPieces + 12;
+				break;
+			case "Guide":
+				stealthChk.check();
+				survivalChk.check();
+				goldPieces = goldPieces + 3;
+				break;
+			case "Hermit":
+				medicineChk.check();
+				religionChk.check();
+				goldPieces = goldPieces + 16;
+				break;
+			case "Merchant":
+				animalHandlingChk.check();
+				persuasionChk.check();
+				goldPieces = goldPieces + 22;
+				break;
+			case "Noble":
+				historyChk.check();
+				persuasionChk.check();
+				goldPieces = goldPieces + 29;
+			case "Sage":
+				arcanaChk.check();
+				historyChk.check();
+				goldPieces = goldPieces + 8;
+				break;
+			case "Sailor":
+				acrobaticsChk.check();
+				perceptionChk.check();
+				goldPieces = goldPieces + 20;
+				break;
+			case "Scribe":
+				investigationChk.check();
+				perceptionChk.check();
+				goldPieces = goldPieces + 23;
+				break;
+			case "Soldier":
+				athleticsChk.check();
+				intimidationChk.check();
+				goldPieces = goldPieces + 14;
+				break;
+			case "Wayfarer":
+				insightChk.check();
+				stealthChk.check();
+				goldPieces = goldPieces + 16;
+				break;
+	  }
+	  
+	  
+	  
+	  CPField.setText("0")
+	  SPField.setText("0")
+	  EPField.setText("0")
+	  GPField.setText(goldPieces.toString())
+	  PPField.setText("0")
 
 
       // Fill the character image field with our Mario image
