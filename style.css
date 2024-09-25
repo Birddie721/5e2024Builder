@@ -134,6 +134,12 @@ body {
 		height: fit-content;
 	}
 	
+	@media only screen and (max-width: 768px){
+		.small-screen-fix {
+			width:fit-content !important;
+		}
+	}
+	
 	.small-screen-fix {
 		width:auto;
 	}
@@ -145,8 +151,4 @@ body {
       background-color: #f9f9f9;
       max-width: 600px;
 	
-	@media only screen and (max-width: 768px){
-		.small-screen-fix {
-			width:fit-content;
-		}
 	}
