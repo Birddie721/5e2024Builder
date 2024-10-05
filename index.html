@@ -99,7 +99,7 @@
 			</div>
 		
 	
-
+	<div style="display:flex">
 	<table class="table-sel">
   <thead>
     <tr>
@@ -114,7 +114,7 @@
   </thead>
   <tbody>
   
-    <tr>
+    <tr class="oddRow">
 		<td>Strength</td>
 		<td>
 			<div><table><tbody><tr>
@@ -150,7 +150,7 @@
 		</td>
 	</tr>
 
-	<tr>
+	<tr class="evenRow">
 		<td>Dexterity</td>
 		<td>
 			<div><table><tbody><tr>
@@ -186,7 +186,7 @@
 		</td>
 	</tr>
 	
-    <tr>
+    <tr class="oddRow">
 		<td>Constitution</td>
 		<td>
 			<div><table><tbody><tr>
@@ -222,7 +222,7 @@
 		</td>
 	</tr>
 	
-    <tr>
+    <tr class="evenRow">
 		<td>Intelligence</td>
 		<td>
 			<div><table><tbody><tr>
@@ -258,7 +258,7 @@
 		</td>
 	</tr>
 	
-    <tr>
+    <tr class="oddRow">
 		<td>Wisdom</td>
 		<td>
 			<div><table><tbody><tr>
@@ -294,7 +294,7 @@
 		</td>
 	</tr>
 	
-    <tr>
+    <tr class="evenRow">
 		<td>Charisma</td>
 		<td>
 			<div><table><tbody><tr>
@@ -331,14 +331,14 @@
 	</tr>
   </tbody>
 </table>
-
-		<button style="margin:auto" class="class-button" onclick="clearStats()">Clear</button>
+	  <div class="price-pool">
+		<p class="display-points">Total Points: <br><br><span id="pricePool">27 / 27</span></p><br>
+		<p class="display-points">Background<br>Points: <br><br><span id="modifierPool">3 / 3</span></p>
+  </div>
+	</div>
+	<button style="margin:auto" class="class-button" onclick="clearStats()">Clear</button>
 		
 	
-  <div class="price-pool">
-    <p>Total Points: <span id="pricePool">27 / 27</span></p><br>
-	<p>Background Points: <span id="modifierPool">3 /3</span></p>
-  </div>
 
   <!-- Div to display the selected class features -->
   <div id="class-features" class="class-features">
@@ -379,10 +379,17 @@
 	
 	
 	
-	<button style="margin:auto" class="class-button" onclick="fillForm()">Show Character Sheet</button>
+	<button style="margin:auto;margin-top:20px" class="class-button" onclick="fillForm()">Show Character Sheet</button>
 	<button style="margin:auto" class="class-button" onclick="fillFormPrinter()">Show Character Sheet (More printer friendly)</button>
 	
+	<div class="kofi">
+		<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', 'e3eaf0', 'W7W1VL4Q9');kofiwidget2.draw();</script> 
+	
 	</div>
+	
+	</div>
+	
+	
 	
 
 </body>
