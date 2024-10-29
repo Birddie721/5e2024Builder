@@ -7,6 +7,20 @@
 	let modifiableBoxes = [];
 	let modifierPool = 3;
 	let initialPricePool = pricePool;
+	let restricted = true;
+	
+	
+	document.addEventListener("DOMContentLoaded", function() {
+		const removeRestrictions = document.getElementById("removeRestrictions")
+		
+	removeRestrictions.addEventListener("change", function (e) {
+      if (removeRestrictions.checked) {
+        removeRestrictionsChecked();
+      } else {
+        removeRestrictionsUnchecked();
+      }
+    });
+	});
 	
 	const roles = {
 		"Acolyte": [4, 5, 6], // Intelligence, Wisdom, Charisma
@@ -107,14 +121,23 @@
     function updateDisplay(id) {
       document.getElementById("value" + id).innerText = values[id - 1];
       document.getElementById("total" + id).innerText = values[id - 1] + mods[id - 1];
-      document.getElementById("pricePool").innerText = pricePool + " / 27";
+	  if (restricted === true){
+		document.getElementById("pricePool").innerText = pricePool + " / 27";
+	  } else {
+		  document.getElementById("pricePool").innerText = "∞";
+	  }
     }
 
     function increment(id) {
       const currentValue = values[id - 1];
       const nextValue = currentValue + 1;
+	  if (restricted === false) {
+		  values[id - 1] = nextValue;
+		  updateDisplay(id);
+		  updateTotals();
+	  }
 
-      if (nextValue <= 15) {
+      if (nextValue <= 15 && restricted === true) {
         const currentCost = costMap[currentValue];
         const nextCost = costMap[nextValue];
         const costDifference = nextCost - currentCost;
@@ -131,8 +154,13 @@
     function decrement(id) {
       const currentValue = values[id - 1];
       const previousValue = currentValue - 1;
+	  if (previousValue >= 1 && restricted === false){
+		  values[id - 1] = previousValue;
+		  updateDisplay(id);
+		  updateTotals();
+	  }
 
-      if (previousValue >= 8) {
+      if (previousValue >= 8 && restricted === true) {
         const currentCost = costMap[currentValue];
         const previousCost = costMap[previousValue];
         const costDifference = currentCost - previousCost;
@@ -188,8 +216,15 @@
 	
 	function updateTotals(){
 		for (let i = 1; i <= 6; i++) {
-			document.getElementById("total" + i).innerText = values[i - 1] + mods[i - 1];
-			document.getElementById("abilityMod" + i).innerText = modifierMap[values[i - 1] + mods[i - 1]];
+			let score = values[i - 1] + mods[i - 1];
+			let scoremod = 0
+			scoremod = Math.floor((score - 10)/2)
+			document.getElementById("total" + i).innerText = score;
+			if (restricted === true) {
+				document.getElementById("abilityMod" + i).innerText = modifierMap[score];
+			} else{
+				document.getElementById("abilityMod" + i).innerText = scoremod
+			}
 		}
 	}
 	
@@ -208,7 +243,10 @@
 	}
 	
 	function clearStats() {
+		initialPricePool = 27
 		pricePool = initialPricePool;
+		removeRestrictions.checked = false;
+		restricted = true
 		modifierPool = 3;
 		for (let i = 1; i <= 6; i++) {
 			values[i - 1] = 8
@@ -218,6 +256,17 @@
 		}
 		updateTotals();
 	}
+	
+	function removeRestrictionsChecked() {
+		restricted = false
+		document.getElementById("pricePool").innerText = "∞";
+	}
+	
+	function removeRestrictionsUnchecked() {
+		clearStats()
+	}
+	
+	
 	
 	function handleRaceChange() {
   const race = document.getElementById("race").value;
