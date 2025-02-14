@@ -467,7 +467,7 @@ const { PDFDocument } = PDFLib
 						speciesTraits.setText(elfTraits.join('\n') + '\n' + woodElfTraits.join('\n'));
 						break;
 					case "Dark":
-						speciesTraits.setText(elfTraits.join('\n') + '\n' + darkElfTraits.join('\n'));
+						speciesTraits.setText(elfTraits.join('\n') + '\n' + drowTraits.join('\n'));
 						break;
 				}
 				break;
