@@ -128,13 +128,19 @@
 	  }
     }
 
+
+	//The PDF has a max character limit of 2, so a charisma value over 29 will throw an error. Temporary limit of 29.
     function increment(id) {
       const currentValue = values[id - 1];
       const nextValue = currentValue + 1;
 	  if (restricted === false) {
-		  values[id - 1] = nextValue;
-		  updateDisplay(id);
-		  updateTotals();
+		  if (id == 6 && currentValue == 29) {
+			  
+		  } else {
+			values[id - 1] = nextValue;
+			updateDisplay(id);
+			updateTotals();
+		  }
 	  }
 
       if (nextValue <= 15 && restricted === true) {
