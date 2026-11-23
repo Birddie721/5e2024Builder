@@ -252,6 +252,13 @@
 		margin: 20px auto;
 		font-family: Arial, sans-serif;
 	}
+	
+	.seo-description {
+		text-align: center;
+		margin-top: 50px;
+		margin-left: 10%;
+		margin-right: 10%;
+	}
 
 	label {
 		margin-top: 10px;
@@ -297,6 +304,7 @@
 	.kofi {
 		margin: auto;
 		margin-top: 80px;
+		scale: 200%;
 	}
 	
 	.sidebar {
